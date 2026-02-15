@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>GoluM - Detalle de Análisis de Perfil</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#194ce6",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#111521",
+                        "status-yellow": "#fbbf24",
+                        "status-green": "#22c55e",
+                        "status-red": "#ef4444",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Manrope', sans-serif; }
+        .gauge-container { position: relative; width: 180px; height: 90px; overflow: hidden; }
+        .gauge-bg { width: 180px; height: 180px; border-radius: 50%; border: 12px solid #1e293b; border-bottom-color: transparent; border-left-color: transparent; transform: rotate(225deg); }
+        .gauge-fill { width: 180px; height: 180px; border-radius: 50%; border: 12px solid #fbbf24; border-bottom-color: transparent; border-left-color: transparent; position: absolute; top: 0; left: 0; transform: rotate(354deg); } /* approx 72% of 180deg */
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen font-display">
+<!-- iOS Status Bar Placeholder -->
+<div class="h-12 w-full flex items-center justify-between px-6 bg-background-light dark:bg-background-dark sticky top-0 z-50">
+<span class="text-sm font-bold">9:41</span>
+<div class="flex gap-1.5 items-center">
+<span class="material-icons-round text-[18px]">signal_cellular_alt</span>
+<span class="material-icons-round text-[18px]">wifi</span>
+<span class="material-icons-round text-[18px]">battery_full</span>
+</div>
+</div>
+<!-- Header Navigation -->
+<header class="px-5 pt-2 pb-6 flex items-center justify-between bg-background-light dark:bg-background-dark border-b border-slate-200 dark:border-slate-800">
+<button class="w-10 h-10 flex items-center justify-center rounded-full bg-slate-200/50 dark:bg-slate-800/50">
+<span class="material-icons-round">chevron_left</span>
+</button>
+<h1 class="text-lg font-bold">Análisis de Perfil</h1>
+<button class="w-10 h-10 flex items-center justify-center rounded-full bg-slate-200/50 dark:bg-slate-800/50">
+<span class="material-icons-round text-lg">share</span>
+</button>
+</header>
+<main class="px-5 pb-32">
+<!-- Probability Gauge Section -->
+<section class="mt-8 flex flex-col items-center">
+<div class="gauge-container mb-4">
+<div class="gauge-bg"></div>
+<div class="gauge-fill"></div>
+<div class="absolute inset-0 flex flex-col items-center justify-end pb-2">
+<span class="text-3xl font-extrabold">72%</span>
+</div>
+</div>
+<div class="text-center">
+<h2 class="text-xl font-bold mb-1">Probabilidad de Aprobación</h2>
+<div class="inline-flex items-center gap-2 px-3 py-1 bg-status-yellow/10 border border-status-yellow/30 rounded-full">
+<div class="w-2.5 h-2.5 rounded-full bg-status-yellow"></div>
+<span class="text-sm font-semibold text-status-yellow">Semáforo Amarillo: Riesgo Moderado</span>
+</div>
+</div>
+</section>
+<!-- Metrics Grid -->
+<section class="mt-10">
+<h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-4 px-1">Métricas de Perfil</h3>
+<div class="grid grid-cols-1 gap-4">
+<!-- Metric Card: Estabilidad Financiera -->
+<div class="bg-white dark:bg-slate-900/50 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
+<div class="flex justify-between items-center mb-2">
+<span class="text-sm font-medium">Estabilidad Financiera</span>
+<span class="text-sm font-bold text-primary">80/100</span>
+</div>
+<div class="h-2 w-full bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full w-[80%]"></div>
+</div>
+</div>
+<!-- Metric Card: Vínculos con Origen -->
+<div class="bg-white dark:bg-slate-900/50 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
+<div class="flex justify-between items-center mb-2">
+<span class="text-sm font-medium">Vínculos con Origen</span>
+<span class="text-sm font-bold text-status-red">45/100</span>
+</div>
+<div class="h-2 w-full bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+<div class="h-full bg-status-red rounded-full w-[45%]"></div>
+</div>
+<p class="text-[11px] mt-2 text-slate-400">Punto crítico identificado que requiere atención.</p>
+</div>
+<!-- Metric Card: Historial Migratorio -->
+<div class="bg-white dark:bg-slate-900/50 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
+<div class="flex justify-between items-center mb-2">
+<span class="text-sm font-medium">Historial Migratorio</span>
+<span class="text-sm font-bold text-status-green">90/100</span>
+</div>
+<div class="h-2 w-full bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+<div class="h-full bg-status-green rounded-full w-[90%]"></div>
+</div>
+</div>
+<!-- Metric Card: Documentación -->
+<div class="bg-white dark:bg-slate-900/50 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
+<div class="flex justify-between items-center mb-2">
+<span class="text-sm font-medium">Documentación</span>
+<span class="text-sm font-bold text-status-yellow">60/100</span>
+</div>
+<div class="h-2 w-full bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+<div class="h-full bg-status-yellow rounded-full w-[60%]"></div>
+</div>
+</div>
+<!-- Metric Card: Propósito de Viaje -->
+<div class="bg-white dark:bg-slate-900/50 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
+<div class="flex justify-between items-center mb-2">
+<span class="text-sm font-medium">Propósito de Viaje</span>
+<span class="text-sm font-bold text-primary">85/100</span>
+</div>
+<div class="h-2 w-full bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full w-[85%]"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Analysis Lists -->
+<div class="mt-8 space-y-6">
+<!-- Fortalezas -->
+<section>
+<h3 class="text-xs font-bold uppercase tracking-wider text-status-green mb-3 px-1">Fortalezas del Perfil</h3>
+<div class="space-y-3">
+<div class="flex items-start gap-3 p-3 bg-status-green/5 rounded-lg border border-status-green/20">
+<span class="material-icons-round text-status-green text-[20px]">check_circle</span>
+<div>
+<p class="text-sm font-bold">Excelente historial crediticio</p>
+<p class="text-[12px] text-slate-500 dark:text-slate-400">Demuestra solvencia y responsabilidad financiera en Ecuador.</p>
+</div>
+</div>
+<div class="flex items-start gap-3 p-3 bg-status-green/5 rounded-lg border border-status-green/20">
+<span class="material-icons-round text-status-green text-[20px]">check_circle</span>
+<div>
+<p class="text-sm font-bold">Viajes previos a zona Schengen</p>
+<p class="text-[12px] text-slate-500 dark:text-slate-400">Su historial de cumplimiento migratorio es un factor positivo clave.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Debilidades -->
+<section>
+<h3 class="text-xs font-bold uppercase tracking-wider text-status-red mb-3 px-1">Debilidades del Perfil</h3>
+<div class="space-y-3">
+<div class="flex items-start gap-3 p-3 bg-status-red/5 rounded-lg border border-status-red/20">
+<span class="material-icons-round text-status-red text-[20px]">warning</span>
+<div>
+<p class="text-sm font-bold">Falta de propiedades a su nombre</p>
+<p class="text-[12px] text-slate-500 dark:text-slate-400">Reduce el arraigo patrimonial necesario para demostrar retorno.</p>
+</div>
+</div>
+<div class="flex items-start gap-3 p-3 bg-status-red/5 rounded-lg border border-status-red/20">
+<span class="material-icons-round text-status-red text-[20px]">warning</span>
+<div>
+<p class="text-sm font-bold">Contrato laboral reciente</p>
+<p class="text-[12px] text-slate-500 dark:text-slate-400">La antigüedad menor a 6 meses puede percibirse como inestabilidad.</p>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Sticky Footer -->
+<div class="fixed bottom-0 left-0 right-0 p-5 bg-background-light dark:bg-background-dark border-t border-slate-200 dark:border-slate-800 pb-8">
+<button class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-primary/20 transition-all">
+<span class="material-icons-round">assignment</span>
+            Ver Plan de Acción
+        </button>
+</div>
+<!-- Background Decoration for Data Aesthetic -->
+<div class="fixed -z-10 top-0 left-0 w-full h-full pointer-events-none opacity-[0.03] dark:opacity-[0.05]">
+<div class="absolute top-1/4 left-0 w-full h-px bg-slate-500"></div>
+<div class="absolute top-2/4 left-0 w-full h-px bg-slate-500"></div>
+<div class="absolute top-3/4 left-0 w-full h-px bg-slate-500"></div>
+<div class="absolute left-1/4 top-0 h-full w-px bg-slate-500"></div>
+<div class="absolute left-2/4 top-0 h-full w-px bg-slate-500"></div>
+<div class="absolute left-3/4 top-0 h-full w-px bg-slate-500"></div>
+</div>
+</body></html>

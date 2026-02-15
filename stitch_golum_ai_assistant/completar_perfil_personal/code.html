@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>GoluM - Completar Perfil Personal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#135bec",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101622",
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            -webkit-tap-highlight-color: transparent;
+            overscroll-behavior-y: contain;
+        }
+        /* Custom scrollbar for mobile feel */
+        ::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex flex-col items-center">
+<!-- iOS Status Bar Spacer (Mock) -->
+<div class="h-12 w-full max-w-md"></div>
+<!-- Header Navigation -->
+<header class="w-full max-w-md px-6 flex items-center justify-between mb-4">
+<button class="p-2 -ml-2 text-slate-600 dark:text-slate-400">
+<span class="material-icons">arrow_back_ios</span>
+</button>
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+<span class="text-white font-bold text-xl italic">G</span>
+</div>
+<span class="font-bold text-lg tracking-tight">GoluM</span>
+</div>
+<div class="w-10"></div> <!-- Spacer for centering logo -->
+</header>
+<!-- Main Content Area (iPhone Form Factor Constrained) -->
+<main class="w-full max-w-md px-6 flex-1 flex flex-col">
+<!-- Progress Section -->
+<div class="mb-8">
+<div class="flex justify-between items-end mb-2">
+<h1 class="text-2xl font-bold">Datos Personales</h1>
+<span class="text-primary text-sm font-semibold">Paso 1 de 3</span>
+</div>
+<div class="w-full h-1.5 bg-primary/10 dark:bg-primary/20 rounded-full overflow-hidden">
+<div class="w-1/3 h-full bg-primary rounded-full"></div>
+</div>
+<p class="mt-4 text-slate-500 dark:text-slate-400 text-sm leading-relaxed">
+                Ayúdanos a conocerte mejor para personalizar tu asesoría migratoria a Europa.
+            </p>
+</div>
+<!-- Form Fields -->
+<form class="space-y-5 flex-1 pb-24">
+<!-- Fecha de Nacimiento -->
+<div class="space-y-2">
+<label class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 ml-1">
+                    Fecha de Nacimiento
+                </label>
+<div class="relative group">
+<input class="w-full h-14 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 pt-1 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all appearance-none text-slate-900 dark:text-white" required="" type="date"/>
+<span class="material-icons absolute right-4 top-4 text-slate-400 pointer-events-none">calendar_today</span>
+</div>
+</div>
+<!-- Lugar de Nacimiento -->
+<div class="space-y-2">
+<label class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 ml-1">
+                    Lugar de Nacimiento
+                </label>
+<div class="relative group">
+<input class="w-full h-14 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-600" placeholder="Ciudad, País" required="" type="text"/>
+<span class="material-icons absolute right-4 top-4 text-slate-400 pointer-events-none">location_on</span>
+</div>
+</div>
+<!-- Estado Civil -->
+<div class="space-y-2">
+<label class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 ml-1">
+                    Estado Civil
+                </label>
+<div class="relative">
+<select class="w-full h-14 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all appearance-none text-slate-900 dark:text-white pr-10" required="">
+<option disabled="" selected="" value="">Seleccionar...</option>
+<option value="soltero">Soltero/a</option>
+<option value="casado">Casado/a</option>
+<option value="divorciado">Divorciado/a</option>
+<option value="union">Unión de Hecho</option>
+</select>
+<span class="material-icons absolute right-4 top-4 text-slate-400 pointer-events-none">expand_more</span>
+</div>
+</div>
+<!-- Profesión -->
+<div class="space-y-2">
+<label class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 ml-1">
+                    Profesión / Ocupación
+                </label>
+<div class="relative group">
+<input class="w-full h-14 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-600" placeholder="Ej: Ingeniero de Software" required="" type="text"/>
+<span class="material-icons absolute right-4 top-4 text-slate-400 pointer-events-none">work</span>
+</div>
+</div>
+<!-- Ingresos Mensuales -->
+<div class="space-y-2">
+<label class="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 ml-1">
+                    Ingresos Mensuales Promedio
+                </label>
+<div class="relative group">
+<div class="absolute left-4 top-4 text-slate-500 dark:text-slate-400 font-medium">$</div>
+<input class="w-full h-14 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl pl-8 pr-4 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-600 font-medium" placeholder="0.00" required="" type="number"/>
+</div>
+</div>
+</form>
+</main>
+<!-- Bottom Action Button (Fixed for Mobile Feel) -->
+<div class="fixed bottom-0 left-0 right-0 w-full flex justify-center p-6 bg-gradient-to-t from-background-light dark:from-background-dark via-background-light dark:via-background-dark to-transparent pt-10">
+<div class="w-full max-w-md">
+<button class="w-full h-14 bg-primary hover:bg-primary/90 text-white font-bold rounded-xl shadow-lg shadow-primary/20 active:scale-[0.98] transition-all flex items-center justify-center gap-2">
+<span>Continuar</span>
+<span class="material-icons text-lg">arrow_forward</span>
+</button>
+<!-- iOS Home Indicator Space -->
+<div class="h-4"></div>
+</div>
+</div>
+<!-- Decorative Element: Abstract Shape -->
+<div class="fixed -top-20 -right-20 w-64 h-64 bg-primary/10 dark:bg-primary/5 rounded-full blur-3xl -z-10"></div>
+<div class="fixed -bottom-20 -left-20 w-80 h-80 bg-primary/5 dark:bg-primary/5 rounded-full blur-3xl -z-10"></div>
+</body></html>

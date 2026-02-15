@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>GoluM - Migration Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#194ce6",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#111521",
+                        "status-yellow": "#fbbf24",
+                        "status-green": "#10b981",
+                        "status-red": "#ef4444",
+                    },
+                    fontFamily: {
+                        "display": ["Manrope"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen pb-24">
+<!-- Top Status Bar (iOS Style) -->
+<div class="px-6 pt-12 pb-4 flex justify-between items-center bg-background-light dark:bg-background-dark">
+<div class="flex items-center gap-3">
+<div class="relative">
+<img alt="Profile Picture" class="w-12 h-12 rounded-full border-2 border-primary object-cover" data-alt="Close up portrait of a smiling man" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIwVuTuID7ZqTWxKZ4M59yzoNMPMa_WPCj3Zhx5CIRqcKKwtAXe7OJ5rGJmAH-FJeDVUOsseAxHy9oyxJrheugFGUQ5NdaLLTQXxZBNMxzrLhqLLhUzn_m83E9Pix55MC6xfJuh9CvMnwlaLumkih5KsIgyPFYDoX7MZjowdEcZ6o4KZyu1Vs8eZTnd-WWNE0mdMi3g0EBuGo5R01mKtV38x57zRZ_PgyR1hjRVHaxJWHQyPm9zztcDozFySQ20krk36vQU_ah__k"/>
+<div class="absolute bottom-0 right-0 w-3 h-3 bg-status-green border-2 border-background-dark rounded-full"></div>
+</div>
+<div>
+<p class="text-xs text-slate-500 dark:text-slate-400">Bienvenido de vuelta,</p>
+<h2 class="text-base font-bold">Carlos Proaño</h2>
+</div>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full bg-slate-200 dark:bg-slate-800/50 text-slate-600 dark:text-slate-300">
+<span class="material-icons-round">notifications_none</span>
+</button>
+</div>
+<!-- Probability Hero Section -->
+<div class="px-6 py-4">
+<div class="bg-primary/10 dark:bg-primary/20 rounded-xl p-6 border border-primary/20 shadow-xl shadow-primary/5">
+<div class="flex flex-col items-center text-center">
+<h3 class="text-sm font-semibold text-primary uppercase tracking-wider mb-6">Probabilidad de Aprobación</h3>
+<!-- Circular Progress -->
+<div class="relative w-40 h-40 flex items-center justify-center">
+<!-- Background Circle -->
+<svg class="w-full h-full transform -rotate-90">
+<circle class="text-slate-200 dark:text-slate-800" cx="80" cy="80" fill="transparent" r="70" stroke="currentColor" stroke-width="12"></circle>
+<!-- Progress Circle -->
+<circle class="text-primary" cx="80" cy="80" fill="transparent" r="70" stroke="currentColor" stroke-dasharray="440" stroke-dashoffset="123" stroke-linecap="round" stroke-width="12"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="text-4xl font-extrabold text-slate-900 dark:text-white">72%</span>
+<span class="text-[10px] font-medium text-slate-500 dark:text-slate-400 uppercase tracking-tighter">Preparado</span>
+</div>
+</div>
+<!-- Semáforo Status -->
+<div class="w-full mt-8">
+<div class="flex justify-between items-center mb-2">
+<span class="text-xs font-semibold text-slate-500 dark:text-slate-400">Estado de Perfil</span>
+<span class="text-xs font-bold text-status-yellow uppercase">Moderado</span>
+</div>
+<div class="grid grid-cols-3 gap-2 h-2.5">
+<div class="rounded-full bg-status-red/30"></div>
+<div class="rounded-full bg-status-yellow shadow-[0_0_10px_rgba(251,191,36,0.5)] border border-white/20"></div>
+<div class="rounded-full bg-slate-200 dark:bg-slate-800"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Travel Details Card -->
+<div class="px-6 py-2">
+<div class="bg-white dark:bg-slate-800/50 rounded-xl p-4 flex items-center gap-4 border border-slate-200 dark:border-slate-800">
+<div class="w-12 h-12 flex items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-800">
+<span class="material-icons-round text-primary">flight_takeoff</span>
+</div>
+<div class="flex-1">
+<div class="flex items-center gap-1.5">
+<span class="text-xs font-bold text-slate-500">DESTINO:</span>
+<span class="text-xs font-bold text-slate-900 dark:text-slate-100 uppercase tracking-wide">España</span>
+</div>
+<p class="text-sm font-medium text-slate-400">Visa de Turismo - Corta Estancia</p>
+</div>
+<button class="p-2 text-primary">
+<span class="material-icons-round">edit</span>
+</button>
+</div>
+</div>
+<!-- Next Steps Section -->
+<div class="px-6 py-4">
+<div class="flex justify-between items-end mb-4">
+<div>
+<h3 class="text-lg font-bold">Próximos Pasos</h3>
+<p class="text-xs text-slate-500">Documentación pendiente para tu cita</p>
+</div>
+<button class="text-xs font-bold text-primary">Ver todo</button>
+</div>
+<div class="space-y-3">
+<!-- Step 1 (Pending) -->
+<div class="bg-white dark:bg-slate-800/30 rounded-xl p-4 border border-slate-200 dark:border-slate-800 flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full border-2 border-status-yellow flex items-center justify-center">
+<span class="material-icons-round text-status-yellow text-sm">priority_high</span>
+</div>
+<div>
+<h4 class="text-sm font-bold">Certificado Laboral</h4>
+<p class="text-[11px] text-slate-500">Emitido por RRHH (Máx 3 meses)</p>
+</div>
+</div>
+<span class="material-icons-round text-slate-300">chevron_right</span>
+</div>
+<!-- Step 2 (Pending) -->
+<div class="bg-white dark:bg-slate-800/30 rounded-xl p-4 border border-slate-200 dark:border-slate-800 flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full border-2 border-slate-200 dark:border-slate-700 flex items-center justify-center">
+<span class="material-icons-round text-slate-400 text-sm">contact_page</span>
+</div>
+<div>
+<h4 class="text-sm font-bold">Seguro de Viaje</h4>
+<p class="text-[11px] text-slate-500">Cobertura mínima de €30.000</p>
+</div>
+</div>
+<span class="material-icons-round text-slate-300">chevron_right</span>
+</div>
+<!-- Step 3 (Completed) -->
+<div class="bg-slate-100/50 dark:bg-slate-800/10 rounded-xl p-4 border border-slate-200 dark:border-slate-800/50 flex items-center justify-between opacity-60">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-status-green flex items-center justify-center">
+<span class="material-icons-round text-white text-sm">check</span>
+</div>
+<div>
+<h4 class="text-sm font-bold line-through">Copia de Pasaporte</h4>
+<p class="text-[11px] text-slate-500">Todas las páginas con sellos</p>
+</div>
+</div>
+<span class="material-icons-round text-status-green">verified</span>
+</div>
+</div>
+</div>
+<!-- CTA Button -->
+<div class="px-6 py-4">
+<button class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-4 rounded-xl shadow-lg shadow-primary/20 flex items-center justify-center gap-2 transition-colors">
+<span class="material-icons-round">bolt</span>
+<span>Mejorar mi Probabilidad</span>
+</button>
+</div>
+<!-- Advisory Preview -->
+<div class="px-6 py-4 mb-8">
+<div class="relative rounded-xl overflow-hidden aspect-[16/6] group">
+<img alt="Advisor Background" class="absolute inset-0 w-full h-full object-cover" data-alt="Modern professional office with a consultant smiling" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCTpNJNo1I8jk7yztG6510M5auBxFp-6C0DrxsM5g0f4UXRSsetsdKEhaxVZMJU-rNvWJvhRLdGJFXzA07nWbccJxu5T2N8bBE0xS2UVa8N_l2lWvW26IBEFdISLB05_FeZasAFHQJyQCIcreaZbXCuNsV-saByLb06Ete1-RO5l-2k-05Qc41PxqFuPNmfkoGFsuTKBLPxb3J6EyiHLU93BroBhLNPOfMzHsscC0GaedqHGyXQEFXjas0Vo2GQX7D4Jj5YgQFW3HI"/>
+<div class="absolute inset-0 bg-gradient-to-r from-primary to-transparent"></div>
+<div class="relative h-full flex flex-col justify-center px-6">
+<p class="text-white/80 text-[10px] font-bold uppercase">Asesoría GoluM</p>
+<h4 class="text-white font-bold text-lg leading-tight">Habla con un experto<br/>en migración</h4>
+<button class="mt-2 text-[11px] font-bold text-white bg-white/20 backdrop-blur-md px-3 py-1.5 rounded-full w-fit">
+                    Agendar cita
+                </button>
+</div>
+</div>
+</div>
+<!-- iOS Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 right-0 bg-white/80 dark:bg-background-dark/80 backdrop-blur-xl border-t border-slate-200 dark:border-slate-800 px-6 pt-3 pb-8 flex justify-between items-center z-50">
+<div class="flex flex-col items-center gap-1 text-primary">
+<span class="material-icons-round">dashboard</span>
+<span class="text-[10px] font-bold">Inicio</span>
+</div>
+<div class="flex flex-col items-center gap-1 text-slate-400">
+<span class="material-icons-round text-slate-400">description</span>
+<span class="text-[10px] font-medium">Documentos</span>
+</div>
+<div class="flex flex-col items-center gap-1 text-slate-400">
+<span class="material-icons-round text-slate-400">chat_bubble_outline</span>
+<span class="text-[10px] font-medium">Asesoría</span>
+</div>
+<div class="flex flex-col items-center gap-1 text-slate-400">
+<span class="material-icons-round text-slate-400">person_outline</span>
+<span class="text-[10px] font-medium">Perfil</span>
+</div>
+</nav>
+<!-- iOS Home Indicator -->
+<div class="fixed bottom-1 left-1/2 -translate-x-1/2 w-32 h-1 bg-slate-300 dark:bg-slate-700 rounded-full z-[60]"></div>
+</body></html>

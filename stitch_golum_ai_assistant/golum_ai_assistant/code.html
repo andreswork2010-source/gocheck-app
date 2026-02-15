@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#194ce6",
+              "background-light": "#f6f6f8",
+              "background-dark": "#111521",
+            },
+            fontFamily: {
+              "display": ["Manrope"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            font-family: 'Manrope', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .ios-blur {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .chat-container {
+            height: calc(100vh - 180px);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display selection:bg-primary/30">
+<!-- iOS Status Bar Simulation -->
+<div class="fixed top-0 w-full h-12 bg-background-light/80 dark:bg-background-dark/80 ios-blur z-50 flex items-center justify-between px-6">
+<span class="text-sm font-semibold">9:41</span>
+<div class="flex items-center gap-1.5">
+<span class="material-icons text-[18px]">signal_cellular_alt</span>
+<span class="material-icons text-[18px]">wifi</span>
+<span class="material-icons text-[18px]">battery_full</span>
+</div>
+</div>
+<!-- Header -->
+<header class="fixed top-12 w-full bg-background-light/80 dark:bg-background-dark/80 ios-blur z-40 border-b border-primary/10 px-4 py-3 flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white">
+<span class="material-icons">smart_toy</span>
+</div>
+<div class="flex flex-col">
+<h1 class="text-lg font-bold leading-tight">GoluM AI</h1>
+<p class="text-[11px] uppercase tracking-wider text-primary font-semibold">Agente Migratorio Virtual</p>
+</div>
+<div class="ml-auto flex gap-3">
+<button class="w-10 h-10 rounded-full bg-primary/10 dark:bg-primary/20 flex items-center justify-center">
+<span class="material-icons text-primary text-xl">info</span>
+</button>
+</div>
+</header>
+<!-- Main Chat Area -->
+<main class="pt-32 pb-44 px-4 chat-container overflow-y-auto flex flex-col gap-6">
+<!-- Assistant Message -->
+<div class="flex flex-col gap-2 max-w-[85%]">
+<div class="bg-white dark:bg-primary/10 border border-primary/5 dark:border-primary/20 p-4 rounded-xl rounded-tl-none shadow-sm">
+<p class="text-sm leading-relaxed">
+                    ¡Hola! Soy tu asistente de GoluM. Estoy aquí para guiarte en tu proceso de visado hacia Europa.
+                </p>
+</div>
+<span class="text-[10px] text-slate-500 ml-1">9:41 AM</span>
+</div>
+<!-- User Message (Hypothetical Previous) -->
+<div class="flex flex-col gap-2 max-w-[85%] self-end">
+<div class="bg-primary text-white p-4 rounded-xl rounded-tr-none shadow-md">
+<p class="text-sm leading-relaxed">
+                    Hola GoluM, ¿cómo va mi aplicación para España?
+                </p>
+</div>
+<span class="text-[10px] text-slate-500 self-end mr-1">9:42 AM</span>
+</div>
+<!-- Assistant Key Message -->
+<div class="flex flex-col gap-2 max-w-[85%]">
+<div class="bg-white dark:bg-primary/10 border border-primary/5 dark:border-primary/20 p-4 rounded-xl rounded-tl-none shadow-sm">
+<p class="text-sm leading-relaxed">
+                    Hola <span class="font-bold">Juan</span>, basándome en tu perfil para <span class="font-bold text-primary">España</span>, te recomiendo actualizar tu certificado laboral. 
+                </p>
+<p class="text-sm leading-relaxed mt-2">
+                    El sistema detectó que el actual tiene más de 3 meses de antigüedad, lo cual podría ser motivo de observación por el consulado.
+                </p>
+</div>
+<div class="flex gap-2 items-center text-primary text-[11px] font-bold mt-1">
+<span class="material-icons text-sm">verified</span>
+<span>Análisis completado al 85%</span>
+</div>
+</div>
+<!-- Suggestion Chips Container -->
+<div class="flex flex-wrap gap-2 mt-2">
+<button class="px-4 py-2.5 bg-white dark:bg-slate-800 border border-primary/20 rounded-full text-xs font-semibold text-primary shadow-sm active:scale-95 transition-transform">
+                ¿Qué documentos me faltan?
+            </button>
+<button class="px-4 py-2.5 bg-white dark:bg-slate-800 border border-primary/20 rounded-full text-xs font-semibold text-primary shadow-sm active:scale-95 transition-transform">
+                ¿Cómo debe ser mi foto?
+            </button>
+<button class="px-4 py-2.5 bg-white dark:bg-slate-800 border border-primary/20 rounded-full text-xs font-semibold text-primary shadow-sm active:scale-95 transition-transform">
+                Ver requisitos de solvencia
+            </button>
+<button class="px-4 py-2.5 bg-white dark:bg-slate-800 border border-primary/20 rounded-full text-xs font-semibold text-primary shadow-sm active:scale-95 transition-transform">
+                Agendar con asesor humano
+            </button>
+</div>
+<!-- Empty space for scrolling -->
+<div class="h-4"></div>
+</main>
+<!-- Bottom Input Area -->
+<div class="fixed bottom-0 w-full pb-8 pt-4 px-4 bg-background-light dark:bg-background-dark border-t border-primary/10 ios-blur">
+<!-- Suggestions bar (mini) -->
+<div class="flex gap-4 overflow-x-auto no-scrollbar mb-4 opacity-70">
+<span class="text-[11px] font-medium whitespace-nowrap bg-slate-200 dark:bg-slate-800 px-2 py-1 rounded">Cita previa</span>
+<span class="text-[11px] font-medium whitespace-nowrap bg-slate-200 dark:bg-slate-800 px-2 py-1 rounded">Seguro de viaje</span>
+<span class="text-[11px] font-medium whitespace-nowrap bg-slate-200 dark:bg-slate-800 px-2 py-1 rounded">Tasas consulares</span>
+</div>
+<div class="flex items-center gap-3 bg-white dark:bg-slate-800/50 p-2 rounded-2xl border border-primary/10 shadow-lg">
+<button class="w-10 h-10 flex items-center justify-center text-slate-400 hover:text-primary transition-colors">
+<span class="material-icons">add_circle_outline</span>
+</button>
+<input class="flex-1 bg-transparent border-none focus:ring-0 text-sm placeholder:text-slate-400 dark:text-white" placeholder="Escribe tu duda migratoria aquí..." type="text"/>
+<div class="flex items-center gap-1">
+<button class="w-10 h-10 flex items-center justify-center text-slate-400 hover:text-primary transition-colors">
+<span class="material-icons">mic</span>
+</button>
+<button class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-white shadow-lg shadow-primary/20 active:scale-90 transition-transform">
+<span class="material-icons">send</span>
+</button>
+</div>
+</div>
+<!-- iOS Home Indicator -->
+<div class="mt-6 flex justify-center">
+<div class="w-32 h-1.5 bg-slate-300 dark:bg-slate-700 rounded-full"></div>
+</div>
+</div>
+<!-- Background Decoration -->
+<div class="fixed top-0 left-0 w-full h-full pointer-events-none -z-10 overflow-hidden">
+<div class="absolute -top-[10%] -right-[10%] w-[50%] h-[40%] bg-primary/5 blur-[120px] rounded-full"></div>
+<div class="absolute top-[40%] -left-[10%] w-[40%] h-[30%] bg-primary/5 blur-[100px] rounded-full"></div>
+</div>
+</body></html>
