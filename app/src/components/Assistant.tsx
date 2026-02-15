@@ -229,21 +229,100 @@ const Assistant: React.FC<AssistantProps> = ({ onBack, onNavigate, uploads, dest
         }
         // Travel Insurance (NEW)
         else if (lowerQuery.includes('seguro') || lowerQuery.includes('insurance') || lowerQuery.includes('póliza')) {
-            responseText = `🛡️ **Seguro de Viaje para Visado Schengen**\n\n`;
-            responseText += `Para que tu visa a **${country?.name}** sea aprobada, el seguro no es opcional, es un requisito legal estricto. Debe cumplir con lo siguiente:\n\n`;
+            if (lowerQuery.includes('costo') || lowerQuery.includes('precio') || lowerQuery.includes('cuanto') || lowerQuery.includes('cuánto') || lowerQuery.includes('vale')) {
+                responseText = `💰 **Costo del Seguro de Viaje**\n\n`;
+                responseText += `El precio varía según los días de cobertura y tu edad:\n\n`;
+                responseText += `• **15 días**: Desde **$45 a $80**\n`;
+                responseText += `• **30 días**: Desde **$80 a $150**\n`;
+                responseText += `• **90 días**: Desde **$200 a $350**\n\n`;
+                responseText += `⚠️ **Importante**: Estos son valores referenciales. El costo final depende de la aseguradora y tu perfil.\n\n`;
+                responseText += `🌐 **COTIZA EN LÍNEA:**\n\n`;
+                responseText += `[🛡️ ASEGURA TU VIAJE](btn:https://www.aseguratuviaje.com.ec/)\n\n`;
+                responseText += `[🌍 ASSIST CARD](btn:https://www.assist-card.com/ec)\n\n`;
+                responseText += `[✈️ WORLD NOMADS](btn:https://www.worldnomads.com/)\n\n`;
+            } else {
+                responseText = `🛡️ **Seguro de Viaje para Visado Schengen**\n\n`;
+                responseText += `Para que tu visa a **${country?.name}** sea aprobada, el seguro no es opcional, es un requisito legal estricto. Debe cumplir con lo siguiente:\n\n`;
 
-            responseText += `✅ **REQUISITOS OBLIGATORIOS:**\n`;
-            responseText += `• **Cobertura:** Mínimo de €30,000 (o su equivalente en dólares).\n`;
-            responseText += `• **Alcance:** Debe cubrir todos los estados miembros del espacio Schengen.\n`;
-            responseText += `• **Conceptos:** Debe incluir repatriación sanitaria y atención médica de urgencia.\n`;
-            responseText += `• **Deducible:** Se recomienda que sea de **€0 (cero)**. Si tiene deducible, el consulado podría rechazarlo.\n\n`;
+                responseText += `✅ **REQUISITOS OBLIGATORIOS:**\n`;
+                responseText += `• **Cobertura:** Mínimo de €30,000 (o su equivalente en dólares).\n`;
+                responseText += `• **Alcance:** Debe cubrir todos los estados miembros del espacio Schengen.\n`;
+                responseText += `• **Conceptos:** Debe incluir repatriación sanitaria y atención médica de urgencia.\n`;
+                responseText += `• **Deducible:** Se recomienda que sea de **€0 (cero)**. Si tiene deducible, el consulado podría rechazarlo.\n\n`;
 
-            responseText += `💎 **RECOMENDACIONES DE GOLUM:**\n`;
-            responseText += `1. **Asegúrate de que sea "Válido para Visado":** Muchas pólizas de tarjetas de crédito no cubren los €30,000 o no emiten el certificado específico que pide el consulado.\n`;
-            responseText += `2. **Fechas:** Debe cubrir desde el día que sales hasta el día que regresas (inclusive).\n\n`;
+                responseText += `💎 **RECOMENDACIONES DE GOLUM:**\n`;
+                responseText += `1. **Asegúrate de que sea "Válido para Visado":** Muchas pólizas de tarjetas de crédito no cubren los €30,000 o no emiten el certificado específico que pide el consulado.\n`;
+                responseText += `2. **Fechas:** Debe cubrir desde el día que sales hasta el día que regresas (inclusive).\n\n`;
 
-            responseText += `[🌍 COTIZAR SEGURO RECOMENDADO (Asegura Tu Viaje)](btn:https://www.aseguratuviaje.com.ec/)\n\n`;
-            responseText += `¿Cuentas ya con un seguro o quieres que te ayude a validar si el que tienes es compatible?`;
+                responseText += `🌐 **PROVEEDORES RECOMENDADOS:**\n\n`;
+                responseText += `[🛡️ ASEGURA TU VIAJE (Ecuador)](btn:https://www.aseguratuviaje.com.ec/)\n\n`;
+                responseText += `[🌍 ASSIST CARD](btn:https://www.assist-card.com/ec)\n\n`;
+                responseText += `[✈️ WORLD NOMADS (Internacional)](btn:https://www.worldnomads.com/)\n\n`;
+
+                responseText += `¿Cuentas ya con un seguro o quieres que te ayude a validar si el que tienes es compatible?`;
+            }
+        }
+        // Financial Solvency (NEW)
+        else if (lowerQuery.includes('solvencia') || lowerQuery.includes('económica') || lowerQuery.includes('economica') || lowerQuery.includes('banco') || lowerQuery.includes('cuenta') || lowerQuery.includes('dinero') || lowerQuery.includes('fondos')) {
+            responseText = `💼 **Solvencia Económica para tu Visa**\n\n`;
+            responseText += `Demostrar que tienes recursos suficientes es uno de los requisitos más importantes. El consulado quiere asegurarse de que no trabajarás ilegalmente.\n\n`;
+
+            responseText += `📊 **DOCUMENTOS PRINCIPALES:**\n`;
+            responseText += `• **Estados de Cuenta**: Últimos 3-6 meses sellados por el banco\n`;
+            responseText += `• **Carta Laboral**: Indicando cargo, salario y autorización para viajar\n`;
+            responseText += `• **Certificados de Propiedad**: Bienes inmuebles o vehículos (prueba de arraigo)\n\n`;
+
+            responseText += `[🗺️ VER HOJA DE RUTA DE SOLVENCIA](navigate:financial-roadmap)\n\n`;
+
+            responseText += `💡 **MONTO RECOMENDADO:**\n`;
+            responseText += `Calcula entre **€60 a €100 por día** de viaje. Para 15 días, serían unos **$1,000 a $1,600** en tu cuenta.\n\n`;
+
+            responseText += `¿Necesitas ayuda para organizar tus documentos financieros o tienes dudas sobre qué presentar si eres independiente?`;
+        }
+        // Biometric Photo (NEW)
+        else if (lowerQuery.includes('foto') || lowerQuery.includes('fotografía') || lowerQuery.includes('fotografia') || lowerQuery.includes('biométrica') || lowerQuery.includes('biometrica')) {
+            if (lowerQuery.includes('costo') || lowerQuery.includes('precio') || lowerQuery.includes('cuanto') || lowerQuery.includes('cuánto') || lowerQuery.includes('vale')) {
+                responseText = `💰 **Costo de la Foto Biométrica**\n\n`;
+                responseText += `En Ecuador, el precio promedio para un set de 2 fotos tipo visa Schengen es:\n\n`;
+                responseText += `• **Estudios Fotográficos**: **$3 a $8**\n`;
+                responseText += `• **Centros Comerciales**: **$5 a $10**\n\n`;
+                responseText += `⚠️ **No uses impresoras caseras**. La foto debe ser en papel fotográfico profesional.\n\n`;
+            } else {
+                responseText = `📸 **Tu Foto para la Visa Schengen**\n\n`;
+                responseText += `La foto biométrica debe cumplir con estándares internacionales muy estrictos:\n\n`;
+
+                responseText += `✅ **REQUISITOS TÉCNICOS:**\n`;
+                responseText += `• **Tamaño**: 35mm x 45mm (estándar ICAO)\n`;
+                responseText += `• **Fondo**: Blanco o gris claro uniforme\n`;
+                responseText += `• **Expresión**: Rostro neutro, boca cerrada, mirando al frente\n`;
+                responseText += `• **Vigencia**: Máximo 6 meses de antigüedad\n\n`;
+
+                responseText += `[🗺️ VER GUÍA COMPLETA DE FOTOGRAFÍA](navigate:photo-roadmap)\n\n`;
+
+                responseText += `💡 **PRO-TIP**: Busca estudios que especifiquen "Fotos para Visa Schengen". Lleva ropa oscura para mejor contraste.\n\n`;
+            }
+            responseText += `¿Quieres que te recomiende estudios fotográficos cerca de ti?`;
+        }
+        // Application Form (NEW)
+        else if (lowerQuery.includes('formulario') || lowerQuery.includes('solicitud') || lowerQuery.includes('llenar') || lowerQuery.includes('rellenar')) {
+            responseText = `📄 **Formulario de Solicitud Schengen**\n\n`;
+            responseText += `Este es el documento central de tu trámite. Debe estar completado sin errores, tachones ni campos vacíos.\n\n`;
+
+            responseText += `📝 **SECCIONES PRINCIPALES:**\n`;
+            responseText += `1. **Datos Personales**: Exactamente como en tu pasaporte\n`;
+            responseText += `2. **Datos del Viaje**: Fechas, destino principal, propósito\n`;
+            responseText += `3. **Alojamiento**: Hotel o anfitrión\n`;
+            responseText += `4. **Medios de Subsistencia**: Cómo pagarás el viaje\n`;
+            responseText += `5. **Firma**: A mano con bolígrafo, DESPUÉS de imprimir\n\n`;
+
+            responseText += `[🗺️ VER GUÍA CAMPO POR CAMPO](navigate:form-roadmap)\n\n`;
+
+            responseText += `⚠️ **ERRORES COMUNES A EVITAR:**\n`;
+            responseText += `• Dejar campos en blanco (escribe "N/A" si no aplica)\n`;
+            responseText += `• Fechas que no coinciden con vuelo/seguro\n`;
+            responseText += `• Usar corrector líquido o tachones\n\n`;
+
+            responseText += `¿Deseas que te ayude a llenar el formulario con tus datos guardados en GoluM?`;
         }
         // Requirements
         else if (lowerQuery.includes('requisitos') || lowerQuery.includes('necesito')) {
@@ -256,11 +335,20 @@ const Assistant: React.FC<AssistantProps> = ({ onBack, onNavigate, uploads, dest
         }
         // Cost / Price
         else if (lowerQuery.includes('costo') || lowerQuery.includes('precio') || lowerQuery.includes('vale') || lowerQuery.includes('cuesta') || lowerQuery.includes('cuanto') || lowerQuery.includes('cuánto')) {
-            responseText = `💰 **Costos del Proceso (Estimados):**\n\n`;
-            responseText += `1. **Tasa Consular**: Aproximadamente **€80** (pago oficial no reembolsable).\n`;
-            responseText += `2. **Reserva de Vuelo**: Entre **$15 y $30** (bloqueo de tarifa sin compra total).\n`;
-            responseText += `3. **Seguro de Viaje**: Varía por días, pero puedes cotizar opciones desde **$3 a $5 por día**.\n\n`;
-            responseText += `Recuerda que la tasa consular se paga el día de la cita, mientras que el vuelo y el seguro los gestionas tú previamente. ¿Quieres que te detalle alguno de estos cobros?`;
+            responseText = `💰 **Presupuesto Total del Proceso (Estimado):**\n\n`;
+            responseText += `📋 **COSTOS OFICIALES:**\n`;
+            responseText += `1. **Tasa Consular**: Aproximadamente **€80** (pago oficial no reembolsable)\n`;
+            responseText += `2. **Pasaporte Ecuatoriano**: **$90** (si aún no lo tienes)\n\n`;
+
+            responseText += `📋 **DOCUMENTOS Y SERVICIOS:**\n`;
+            responseText += `3. **Reserva de Vuelo**: Entre **$15 y $30** (bloqueo temporal)\n`;
+            responseText += `4. **Seguro de Viaje**: Desde **$45 a $150** (según días)\n`;
+            responseText += `5. **Alojamiento**: Desde **$40/noche** (hotel) o **€80** (carta invitación)\n`;
+            responseText += `6. **Foto Biométrica**: **$3 a $8** (set de 2 fotos)\n`;
+            responseText += `7. **Estados de Cuenta**: **$5 a $15** (certificación bancaria)\n\n`;
+
+            responseText += `💡 **PRESUPUESTO MÍNIMO RECOMENDADO**: Entre **$300 y $500** para todo el proceso (sin contar el pasaje definitivo).\n\n`;
+            responseText += `¿Quieres que te detalle alguno de estos costos específicamente?`;
         }
         // Time
         else if (lowerQuery.includes('tiempo') || lowerQuery.includes('tarda') || lowerQuery.includes('demora')) {

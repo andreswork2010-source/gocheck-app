@@ -9,9 +9,12 @@ import AppointmentRoadmap from './components/AppointmentRoadmap';
 import PassportRoadmap from './components/PassportRoadmap';
 import FlightRoadmap from './components/FlightRoadmap';
 import AccommodationRoadmap from './components/AccommodationRoadmap';
+import FinancialRoadmap from './components/FinancialRoadmap';
+import PhotoRoadmap from './components/PhotoRoadmap';
+import FormRoadmap from './components/FormRoadmap';
 import { type UserProfile } from './utils/scoring';
 
-type View = 'login' | 'onboarding' | 'dashboard' | 'analysis' | 'assistant' | 'documents' | 'appointment-roadmap' | 'passport-roadmap' | 'flight-roadmap' | 'accommodation-roadmap';
+type View = 'login' | 'onboarding' | 'dashboard' | 'analysis' | 'assistant' | 'documents' | 'appointment-roadmap' | 'passport-roadmap' | 'flight-roadmap' | 'accommodation-roadmap' | 'financial-roadmap' | 'photo-roadmap' | 'form-roadmap';
 
 interface TripData {
   destination: string;
@@ -175,6 +178,24 @@ function App() {
 
       {currentView === 'accommodation-roadmap' && (
         <AccommodationRoadmap
+          onBack={() => navigateTo('assistant')}
+        />
+      )}
+
+      {currentView === 'financial-roadmap' && (
+        <FinancialRoadmap
+          onBack={() => navigateTo('assistant')}
+        />
+      )}
+
+      {currentView === 'photo-roadmap' && (
+        <PhotoRoadmap
+          onBack={() => navigateTo('assistant')}
+        />
+      )}
+
+      {currentView === 'form-roadmap' && (
+        <FormRoadmap
           onBack={() => navigateTo('assistant')}
         />
       )}
