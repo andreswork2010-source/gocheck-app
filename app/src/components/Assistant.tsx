@@ -355,6 +355,33 @@ const Assistant: React.FC<AssistantProps> = ({ onBack, onNavigate, uploads, dest
             responseText = `⏱️ **Tiempo de Procesamiento:**\n\n`;
             responseText += `Generalmente, el consulado de ${country?.name} toma entre **15 y 45 días calendario** en procesar la solicitud una vez entregada la documentación. Te recomiendo aplicar con al menos 2 meses de antelación.`;
         }
+        // General Visa Process / How to Travel (NEW - Catch-all for general questions)
+        else if (lowerQuery.includes('viajar') || lowerQuery.includes('proceso') || lowerQuery.includes('empezar') || lowerQuery.includes('comenzar') || lowerQuery.includes('hacer') || lowerQuery.includes('pasos')) {
+            responseText = `✈️ **Tu Viaje a ${country?.name} - Guía Completa**\n\n`;
+            responseText += `¡Excelente decisión! Viajar a España es totalmente posible si sigues el proceso correcto. Déjame guiarte paso a paso:\n\n`;
+
+            responseText += `📋 **PROCESO COMPLETO (8 PASOS):**\n\n`;
+            responseText += `1️⃣ **Pasaporte**: Si no lo tienes, tramítalo primero ($90, tarda 1-3 días)\n`;
+            responseText += `2️⃣ **Documentos Financieros**: Estados de cuenta y carta laboral\n`;
+            responseText += `3️⃣ **Reserva de Vuelo**: Itinerario temporal ($15-$30)\n`;
+            responseText += `4️⃣ **Alojamiento**: Reserva de hotel o carta de invitación\n`;
+            responseText += `5️⃣ **Seguro de Viaje**: Cobertura mínima €30,000 ($45-$150)\n`;
+            responseText += `6️⃣ **Foto Biométrica**: 35x45mm, fondo blanco ($3-$8)\n`;
+            responseText += `7️⃣ **Formulario**: Llenar solicitud Schengen sin errores\n`;
+            responseText += `8️⃣ **Cita BLS**: Agendar y presentar documentos (€80)\n\n`;
+
+            responseText += `💰 **PRESUPUESTO TOTAL**: Entre **$300 y $500** (sin contar pasaje definitivo)\n`;
+            responseText += `⏱️ **TIEMPO TOTAL**: 2-3 meses desde que empiezas hasta que viajas\n\n`;
+
+            responseText += `🎯 **¿POR DÓNDE EMPIEZO?**\n\n`;
+            responseText += `Pregúntame sobre cualquier paso específico, por ejemplo:\n`;
+            responseText += `• "¿Cómo saco el pasaporte?"\n`;
+            responseText += `• "¿Cuánto cuesta la reserva de vuelo?"\n`;
+            responseText += `• "¿Qué documentos necesito?"\n`;
+            responseText += `• "¿Cómo agendo la cita?"\n\n`;
+
+            responseText += `O si ya tienes documentos subidos, puedo **analizarlos** para ver qué te falta. ¿Qué te gustaría hacer primero?`;
+        }
         else {
             // Default responses
             responseText = `Entendido. Estoy aquí para ayudarte con tu viaje a **${country?.name}**. \n\nPuedes preguntarme sobre:\n• Requisitos de la visa\n• Cómo llenar el formulario\n• Costos y tiempos\n• O pedirme que **analice tus documentos** subidos.`;
