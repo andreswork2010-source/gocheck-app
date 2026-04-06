@@ -1,0 +1,91 @@
+@import "tailwindcss";
+@variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-primary: #10b981;
+  --color-background-light: #f8fafc;
+  --color-background-dark: #0f172a;
+  --color-status-yellow: #fbbf24;
+  --color-status-green: #10b981;
+  --color-status-red: #ef4444;
+
+  --font-display: "Public Sans", "Manrope", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+@layer base {
+  body {
+    -webkit-tap-highlight-color: transparent;
+    font-family: var(--font-display);
+    background-color: var(--color-background-light);
+    color: #0f172a;
+    /* slate-900 */
+    min-height: 100vh;
+    transition-property: color, background-color;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 300ms;
+  }
+
+  .dark body {
+    background-color: var(--color-background-dark);
+    color: #f1f5f9;
+    /* slate-100 */
+  }
+}
+
+@layer components {
+  .ios-blur {
+    backdrop-filter: blur(24px);
+    background-color: rgba(246, 246, 248, 0.8);
+  }
+
+  .dark .ios-blur {
+    background-color: rgba(16, 22, 34, 0.8);
+  }
+
+  .gauge-container {
+    position: relative;
+    width: 180px;
+    height: 90px;
+    overflow: hidden;
+  }
+
+  .gauge-bg {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    border: 12px solid #e2e8f0;
+    /* slate-200 */
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+    transform: rotate(225deg);
+  }
+
+  .dark .gauge-bg {
+    border-color: #1e293b;
+    /* slate-800 */
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+  }
+
+  .gauge-fill {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    border: 12px solid var(--color-status-yellow);
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: rotate(354deg);
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "name": "Go-Check - Tu puente a Europa",
+  "short_name": "Go-Check",
+  "description": "Asesoría migratoria inteligente para visas Schengen",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#10b981",
+  "icons": [
+    {
+      "src": "/g-icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
