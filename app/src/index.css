@@ -2,9 +2,9 @@
 @variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --color-primary: #135bec;
-  --color-background-light: #f6f6f8;
-  --color-background-dark: #101622;
+  --color-primary: #10b981;
+  --color-background-light: #f8fafc;
+  --color-background-dark: #0f172a;
   --color-status-yellow: #fbbf24;
   --color-status-green: #10b981;
   --color-status-red: #ef4444;

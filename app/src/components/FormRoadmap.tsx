@@ -19,7 +19,7 @@ const FormRoadmap: React.FC<FormRoadmapProps> = ({ onBack }) => {
             title: "Descarga el Formulario Oficial",
             description: "Usa SIEMPRE el formulario actualizado del consulado. No uses versiones antiguas ni de terceros.",
             icon: "download",
-            tips: ["GoluM tiene el formulario oficial en la sección de Documentos."]
+            tips: ["Go-Check tiene el formulario oficial en la sección de Documentos."]
         },
         {
             number: 2,
@@ -149,10 +149,10 @@ const FormRoadmap: React.FC<FormRoadmapProps> = ({ onBack }) => {
                 <div className="mt-8 bg-slate-900/50 border border-slate-800 rounded-2xl p-6">
                     <h3 className="text-white font-bold mb-4 flex items-center gap-2">
                         <span className="material-icons text-cyan-400">auto_fix_high</span>
-                        Herramienta de GoluM
+                        Herramienta de Go-Check
                     </h3>
                     <p className="text-slate-400 text-sm mb-4">
-                        En la sección <strong className="text-white">Formularios</strong> de GoluM, puedes llenar el formulario digitalmente
+                        En la sección <strong className="text-white">Formularios</strong> de Go-Check, puedes llenar el formulario digitalmente
                         con tus datos guardados y luego descargarlo listo para imprimir y firmar.
                     </p>
                     <button

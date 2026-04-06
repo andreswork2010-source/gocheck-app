@@ -1,6 +1,9 @@
 import React, { useMemo } from 'react';
 import { VISA_DATA } from '../data/visaData';
 import { calculateVisaScore, type UserProfile } from '../utils/scoring';
+import { supabase } from '../lib/supabase';
+import NotificationBell from './NotificationBell';
+import ConsularNews from './ConsularNews';
 
 interface DashboardProps {
     onBoost: () => void;
@@ -48,14 +51,34 @@ const Dashboard: React.FC<DashboardProps> = ({ onBoost, onNavigate, destinationI
                     </div>
                 </div>
                 <div className="flex items-center gap-4">
-                    <button className="w-8 h-8 flex items-center justify-center rounded-full bg-slate-200 dark:bg-slate-800/50 text-slate-600 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors">
-                        <span className="material-icons text-lg">notifications_none</span>
+                    <button
+                        onClick={() => supabase.auth.signOut()}
+                        className="w-8 h-8 flex items-center justify-center rounded-full bg-slate-200 dark:bg-slate-800/50 text-slate-600 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors"
+                        title="Cerrar sesión"
+                    >
+                        <span className="material-icons text-lg">logout</span>
                     </button>
+                    <NotificationBell 
+                        dates={userProfile?.importantDates || []} 
+                        onOpenCalendar={() => onNavigate('calendar')} 
+                    />
+
                     {/* Desktop Menu - Hidden on Mobile */}
                     <div className="hidden md:flex items-center gap-2 text-sm font-medium">
-                        <button className="px-3 py-1.5 rounded-lg bg-primary/10 text-primary">Inicio</button>
+                        <button className="px-3 py-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400 transition-colors">Inicio</button>
                         <button onClick={() => onNavigate('documents')} className="px-3 py-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400 transition-colors">Documentos</button>
-                        <button onClick={() => onNavigate('assistant')} className="px-3 py-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400 transition-colors">Asesoría AI</button>
+                        <button onClick={() => onNavigate('calendar')} className="px-3 py-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400 transition-colors">Agenda</button>
+
+
+                        {/* BOTÓN RESALTADO */}
+                        <button
+                            onClick={() => onNavigate('assistant')}
+                            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-primary text-white font-bold shadow-lg shadow-primary/25 hover:scale-105 active:scale-95 transition-all"
+                        >
+                            <span className="material-icons text-sm animate-bounce">smart_toy</span>
+                            Asesoría AI
+                        </button>
+
                         <button onClick={() => onNavigate('onboarding')} className="px-3 py-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400 transition-colors">Perfil</button>
                     </div>
                 </div>
@@ -141,6 +164,9 @@ const Dashboard: React.FC<DashboardProps> = ({ onBoost, onNavigate, destinationI
                         <span className="material-icons">bolt</span>
                         <span>Mejorar mi Probabilidad</span>
                     </button>
+
+                    {/* Consular News Feed */}
+                    <ConsularNews />
                 </div>
 
                 {/* Center/Right Column: Content & Actions (Mobile: Full Width, Desktop: 8 cols) */}
@@ -159,12 +185,127 @@ const Dashboard: React.FC<DashboardProps> = ({ onBoost, onNavigate, destinationI
                                 <span className="material-icons text-white text-xs">smart_toy</span>
                                 <span className="text-white text-[10px] font-bold uppercase tracking-widest">Asistente AI Activo</span>
                             </div>
-                            <h4 className="text-white font-bold text-2xl md:text-3xl leading-tight mb-2">Resuelve tus dudas<br />con GoluM AI</h4>
+                            <h4 className="text-white font-bold text-2xl md:text-3xl leading-tight mb-2">Resuelve tus dudas<br />con Go-Check</h4>
                             <p className="text-white/80 text-sm md:max-w-md">Obtén respuestas instántaneas sobre requisitos, tiempos y procesos legales para tu visa a {country?.name}.</p>
                         </div>
                         <div className="absolute right-0 bottom-0 p-4 opacity-50 hidden md:block">
                             <span className="material-icons text-white text-[100px]">chat</span>
                         </div>
+                    </div>
+
+                    {/* AI Insights Card */}
+                    {userProfile && (
+                        <div className="bg-gradient-to-br from-slate-900 to-slate-800 dark:from-slate-900 dark:to-slate-950 rounded-2xl p-6 border border-slate-800 shadow-2xl relative overflow-hidden mb-6">
+                            <div className="relative z-10">
+                                <div className="flex items-center gap-2 mb-4">
+                                    <span className="material-icons text-primary text-xl">psychology</span>
+                                    <h3 className="text-white font-bold text-base">Análisis Inteligente Go-Check</h3>
+                                </div>
+                                <div className="space-y-4">
+                                    <p className="text-slate-300 text-sm leading-relaxed">
+                                        Detectamos que eres <span className="text-white font-bold">{userProfile.profession}</span>. 
+                                        {parseFloat(userProfile.income) < 1500 
+                                            ? " Para tu destino, te recomendamos reforzar tu solvencia con extractos de ahorros de al menos 6 meses."
+                                            : " Tu nivel de ingresos es sólido para los estándares Schengen."}
+                                    </p>
+                                    <button 
+                                        onClick={() => onNavigate('assistant')}
+                                        className="text-primary text-xs font-bold hover:underline flex items-center gap-1"
+                                    >
+                                        Seguir analizando con IA <span className="material-icons text-xs">arrow_forward</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div className="absolute -right-6 -bottom-6 opacity-10">
+                                <span className="material-icons text-[120px] text-white">smart_toy</span>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Agenda Snippet */}
+                    <div className="bg-white dark:bg-slate-800/50 rounded-2xl border border-slate-200 dark:border-slate-800 p-6">
+                        <div className="flex justify-between items-center mb-4">
+                            <div className="flex items-center gap-2">
+                                <span className="material-icons text-primary">calendar_today</span>
+                                <h3 className="text-lg font-bold text-slate-900 dark:text-white">Agenda Próxima</h3>
+                            </div>
+                            <button onClick={() => onNavigate('calendar')} className="text-xs font-bold text-primary hover:bg-primary/10 px-3 py-1.5 rounded-lg transition-colors">Ver Todo</button>
+                        </div>
+                        <div className="space-y-4">
+                            {userProfile?.importantDates && userProfile.importantDates.length > 0 ? (
+                                [...userProfile.importantDates]
+                                    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+                                    .filter(d => new Date(d.date) >= new Date(new Date().setHours(0,0,0,0)))
+                                    .slice(0, 2)
+                                    .map(date => (
+                                        <div key={date.id} className="flex items-start gap-4 p-3 rounded-xl bg-slate-50 dark:bg-slate-900/40 border border-slate-100 dark:border-slate-800">
+                                            <div className="bg-primary/10 text-primary w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0">
+                                                <span className="material-icons text-sm">{date.type === 'flight' ? 'flight_takeoff' : 'event'}</span>
+                                            </div>
+                                            <div className="flex-1">
+                                                <h4 className="text-xs font-bold text-slate-900 dark:text-white">{date.title}</h4>
+                                                <div className="flex items-center gap-2 mt-1">
+                                                    <span className="text-[10px] text-slate-500">{new Date(date.date).toLocaleDateString('es-ES', { day: 'numeric', month: 'short' })}</span>
+                                                    {date.memberName && <span className="text-[9px] bg-primary/20 text-primary px-1.5 py-0.5 rounded-full font-bold uppercase">{date.memberName}</span>}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))
+                            ) : (
+                                <div className="text-center py-4">
+                                    <p className="text-xs text-slate-500 italic">No hay eventos próximos.</p>
+                                    <button onClick={() => onNavigate('calendar')} className="text-[10px] font-bold text-primary mt-2">Agregar Cita</button>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* TRAVELPAYOUTS DRIVER INTEGRATION: Booking Center */}
+                    <div className="bg-gradient-to-br from-emerald-600 to-emerald-800 rounded-2xl p-6 border border-emerald-500 shadow-xl relative overflow-hidden group">
+                        <div className="relative z-10">
+                            <div className="flex items-center gap-3 mb-4">
+                                <div className="w-10 h-10 bg-white/20 backdrop-blur-md rounded-xl flex items-center justify-center">
+                                    <span className="material-icons text-white">verified_user</span>
+                                </div>
+                                <div>
+                                    <h3 className="text-white font-bold text-lg leading-none">Centro de Reservas Obligatorias</h3>
+                                    <p className="text-emerald-100/70 text-[10px] uppercase font-bold tracking-widest mt-1">Power by Go-Check Driver</p>
+                                </div>
+                            </div>
+                            
+                            <p className="text-white/90 text-sm mb-6 leading-relaxed">
+                                Para tu visa a {country?.name || 'su destino'}, el consulado exige documentos de reserva verificados. Obtén los tuyos con nuestros aliados oficiales para asegurar el cumplimiento legal.
+                            </p>
+
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                                <a 
+                                    href={`https://tp.media/r?marker=703875&p=2422&u=https://www.aviasales.com`}
+                                    target="_blank" rel="noopener noreferrer"
+                                    className="bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 p-3 rounded-xl transition-all flex flex-col items-center text-center gap-2"
+                                >
+                                    <span className="material-icons text-white">flight_takeoff</span>
+                                    <span className="text-[11px] font-bold text-white">Reserva de Vuelo</span>
+                                </a>
+                                <a 
+                                    href={`https://tp.media/r?marker=703875&p=3453&u=https://ectatravel.com`}
+                                    target="_blank" rel="noopener noreferrer"
+                                    className="bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 p-3 rounded-xl transition-all flex flex-col items-center text-center gap-2"
+                                >
+                                    <span className="material-icons text-white">health_and_safety</span>
+                                    <span className="text-[11px] font-bold text-white">Seguro de Viaje</span>
+                                </a>
+                                <a 
+                                    href={`https://tp.media/r?marker=703875&p=1214&u=https://www.booking.com`}
+                                    target="_blank" rel="noopener noreferrer"
+                                    className="bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 p-3 rounded-xl transition-all flex flex-col items-center text-center gap-2"
+                                >
+                                    <span className="material-icons text-white">hotel</span>
+                                    <span className="text-[11px] font-bold text-white">Hospedaje Real</span>
+                                </a>
+                            </div>
+                        </div>
+                        {/* Decorative Background Element */}
+                        <div className="absolute -right-10 -top-10 w-40 h-40 bg-white/10 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-1000"></div>
                     </div>
 
                     {/* Next Steps List */}
@@ -227,11 +368,29 @@ const Dashboard: React.FC<DashboardProps> = ({ onBoost, onNavigate, destinationI
                     <span className="material-icons">chat_bubble_outline</span>
                     <span className="text-[10px] font-medium">Asesoría</span>
                 </div>
+                <div className="flex flex-col items-center gap-1 text-slate-400 cursor-pointer hover:text-slate-600 dark:hover:text-slate-200" onClick={() => onNavigate('calendar')}>
+                    <span className="material-icons">calendar_month</span>
+                    <span className="text-[10px] font-medium">Agenda</span>
+                </div>
                 <div className="flex flex-col items-center gap-1 text-slate-400 cursor-pointer hover:text-slate-600 dark:hover:text-slate-200" onClick={() => onNavigate('onboarding')}>
+
                     <span className="material-icons">person_outline</span>
                     <span className="text-[10px] font-medium">Perfil</span>
                 </div>
             </nav>
+            {/* BOTÓN FLOTANTE AI */}
+            <button
+                onClick={() => onNavigate('assistant')}
+                className="fixed bottom-24 md:bottom-10 right-6 w-16 h-16 bg-primary text-white rounded-full shadow-2xl flex items-center justify-center z-50 hover:scale-110 active:scale-90 transition-all group"
+            >
+                <div className="absolute inset-0 rounded-full bg-primary animate-ping opacity-20 group-hover:opacity-0"></div>
+                <span className="material-icons text-3xl">smart_toy</span>
+
+                {/* Etiqueta flotante */}
+                <div className="absolute right-full mr-4 bg-slate-900 text-white text-xs font-bold py-2 px-4 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+                    ¿Dudas? Pregúntame
+                </div>
+            </button>
         </div>
     );
 };

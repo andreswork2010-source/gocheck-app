@@ -23,8 +23,14 @@ const Onboarding: React.FC<OnboardingProps> = ({ onNext, initialData, onCancel }
         days: initialData?.days || 15,
         travelDate: '',
         photo: null as File | null,
-        photoPreview: initialData?.photoUrl || ''
+        photoPreview: initialData?.photoUrl || '',
+        phone: initialData?.phone || '',
+        email: initialData?.email || '',
+        companions: initialData?.companions || [] as {id: string, name: string, relation: string, age: string}[]
     });
+
+    const [showCompanionForm, setShowCompanionForm] = useState(false);
+    const [newCompanion, setNewCompanion] = useState({ name: '', relation: 'Pareja', age: '' });
 
     // Camera Support
     const [showCamera, setShowCamera] = useState(false);
@@ -44,15 +50,24 @@ const Onboarding: React.FC<OnboardingProps> = ({ onNext, initialData, onCancel }
                 setFormData(prev => ({ ...prev, visaType: country.visas[0]?.id || '' }));
             }
         }
-    }, [formData.destination]);
+    }, [formData.destination, formData.visaType]);
 
-    const handleNext = (e?: React.FormEvent) => {
+    const [isSaving, setIsSaving] = useState(false);
+
+    const handleNext = async (e?: React.FormEvent) => {
         if (e) e.preventDefault();
-        if (step < 3) {
+        if (step < 4) {
             setStep(step + 1);
             window.scrollTo(0, 0);
         } else {
-            onNext(formData);
+            setIsSaving(true);
+            try {
+                await onNext(formData);
+            } catch (err) {
+                console.error("Onboarding completion error:", err);
+            } finally {
+                setIsSaving(false);
+            }
         }
     };
 
@@ -168,7 +183,7 @@ const Onboarding: React.FC<OnboardingProps> = ({ onNext, initialData, onCancel }
                     <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center shadow-lg shadow-primary/20">
                         <span className="text-white font-bold text-xl italic">G</span>
                     </div>
-                    <span className="font-bold text-lg tracking-tight">GoluM</span>
+                    <span className="font-bold text-lg tracking-tight">Go-Check</span>
                 </div>
                 {onCancel && (
                     <button
@@ -186,24 +201,26 @@ const Onboarding: React.FC<OnboardingProps> = ({ onNext, initialData, onCancel }
 
                 {/* Progress Bar (Top) */}
                 <div className="w-full h-1.5 bg-slate-100 dark:bg-slate-800">
-                    <div className="h-full bg-primary transition-all duration-500 ease-out" style={{ width: `${(step / 3) * 100}%` }}></div>
+                    <div className="h-full bg-primary transition-all duration-500 ease-out" style={{ width: `${(step / 4) * 100}%` }}></div>
                 </div>
 
                 <div className="p-8 md:p-12">
                     {/* Step Header */}
                     <div className="mb-8 text-center">
                         <span className="inline-block py-1 px-3 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-wider mb-4">
-                            Paso {step} de 3
+                            Paso {step} de 4
                         </span>
                         <h1 className="text-3xl md:text-4xl font-bold mb-3 text-slate-900 dark:text-white transition-all">
                             {step === 1 && "Datos Personales"}
-                            {step === 2 && "Configura tu Viaje"}
-                            {step === 3 && "Verificación Final"}
+                            {step === 2 && "Grupo Familiar"}
+                            {step === 3 && "Configura tu Viaje"}
+                            {step === 4 && "Verificación Final"}
                         </h1>
                         <p className="text-slate-500 dark:text-slate-400 text-sm md:text-base max-w-lg mx-auto leading-relaxed">
                             {step === 1 && "Para comenzar, necesitamos conocer quién eres para personalizar tu perfil."}
-                            {step === 2 && "Selecciona tu destino, duración y el tipo de visado que te interesa solicitar."}
-                            {step === 3 && "Revisa que toda la información sea correcta antes de generar tu lista de requisitos."}
+                            {step === 2 && "¿Viajas acompañado? Registra a tu esposo/a o hijos para gestionar los documentos de todos desde un solo lugar."}
+                            {step === 3 && "Selecciona tu destino, duración y el tipo de visado que te interesa solicitar."}
+                            {step === 4 && "Revisa que toda la información sea correcta antes de generar tu lista de requisitos."}
                         </p>
                     </div>
 
@@ -385,10 +402,101 @@ const Onboarding: React.FC<OnboardingProps> = ({ onNext, initialData, onCancel }
                                         <span className="material-icons absolute right-4 top-3 text-slate-400 pointer-events-none">work</span>
                                     </div>
                                 </div>
+                                    <div className="space-y-2">
+                                        <label className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 ml-1">Teléfono de contacto</label>
+                                        <div className="relative">
+                                            <input
+                                                className="w-full h-12 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all text-slate-900 dark:text-white placeholder:text-slate-400"
+                                                placeholder="Ej: +57 300 123 4567"
+                                                required
+                                                type="tel"
+                                                value={formData.phone}
+                                                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                                            />
+                                            <span className="material-icons absolute right-4 top-3 text-slate-400 pointer-events-none">phone</span>
+                                        </div>
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 ml-1">Correo Electrónico</label>
+                                        <div className="relative">
+                                            <input
+                                                className="w-full h-12 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl px-4 focus:ring-2 focus:ring-primary/50 focus:border-primary outline-none transition-all text-slate-900 dark:text-white placeholder:text-slate-400"
+                                                placeholder="tu@email.com"
+                                                required
+                                                type="email"
+                                                value={formData.email}
+                                                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                                            />
+                                            <span className="material-icons absolute right-4 top-3 text-slate-400 pointer-events-none">email</span>
+                                        </div>
+                                    </div>
                             </div>
                         )}
 
                         {step === 2 && (
+                            <div className="space-y-6 animate-fadeIn">
+                                <div className="p-6 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-200 dark:border-slate-700">
+                                    <h3 className="font-bold mb-2">Compañeros de Viaje</h3>
+                                    <p className="text-sm text-slate-500 mb-6">Si viajas en familia, no necesitas crear varias cuentas. Añádelos aquí.</p>
+                                    
+                                    {formData.companions.length > 0 && (
+                                        <div className="space-y-3 mb-6">
+                                            {formData.companions.map((comp: any) => (
+                                                <div key={comp.id} className="flex items-center justify-between p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm">
+                                                   <div>
+                                                       <p className="font-bold text-sm text-slate-900 dark:text-white">{comp.name}</p>
+                                                       <p className="text-xs text-slate-500">{comp.relation} • {comp.age} años</p>
+                                                   </div>
+                                                   <button type="button" onClick={() => setFormData(p => ({...p, companions: p.companions.filter((c: any) => c.id !== comp.id)}))} className="text-red-500 hover:text-red-600 bg-red-50 hover:bg-red-100 p-2 rounded-lg transition-colors">
+                                                       <span className="material-icons text-sm">delete</span>
+                                                   </button>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+
+                                    {showCompanionForm ? (
+                                        <div className="space-y-4 p-5 bg-white dark:bg-slate-900 rounded-xl border border-primary/30 shadow-md">
+                                            <div>
+                                                <label className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-1 block">Nombre Completo</label>
+                                                <input type="text" placeholder="Ej: Maria Pérez" className="w-full h-11 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-3 focus:ring-2 focus:ring-primary outline-none" value={newCompanion.name} onChange={e => setNewCompanion({...newCompanion, name: e.target.value})} />
+                                            </div>
+                                            <div className="grid grid-cols-2 gap-3">
+                                                <div>
+                                                    <label className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-1 block">Relación</label>
+                                                    <select value={newCompanion.relation} onChange={e => setNewCompanion({...newCompanion, relation: e.target.value})} className="w-full h-11 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-3 focus:ring-2 focus:ring-primary outline-none appearance-none">
+                                                        <option value="Pareja">Pareja</option>
+                                                        <option value="Hijo/a">Hijo/a</option>
+                                                        <option value="Familiar">Familiar</option>
+                                                        <option value="Amigo/a">Amigo/a</option>
+                                                    </select>
+                                                </div>
+                                                <div>
+                                                    <label className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-1 block">Edad</label>
+                                                    <input type="number" placeholder="Ej: 8" className="w-full h-11 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg px-3 focus:ring-2 focus:ring-primary outline-none" value={newCompanion.age} onChange={e => setNewCompanion({...newCompanion, age: e.target.value})} />
+                                                </div>
+                                            </div>
+                                            <div className="flex gap-3 pt-2">
+                                                <button type="button" onClick={() => {
+                                                    if(newCompanion.name && newCompanion.age) {
+                                                        setFormData(p => ({...p, companions: [...p.companions, { ...newCompanion, id: Date.now().toString() }]}));
+                                                        setNewCompanion({ name: '', relation: 'Pareja', age: '' });
+                                                        setShowCompanionForm(false);
+                                                    }
+                                                }} className="flex-1 bg-primary text-white font-bold py-2.5 rounded-lg hover:bg-primary/90 transition-colors">Guardar</button>
+                                                <button type="button" onClick={() => setShowCompanionForm(false)} className="px-4 text-slate-500 font-bold hover:text-slate-700 dark:hover:text-slate-300">Cancelar</button>
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        <button type="button" onClick={() => setShowCompanionForm(true)} className="w-full py-4 border-2 border-dashed border-primary/40 rounded-xl text-primary font-bold hover:bg-primary/5 transition-colors flex items-center justify-center gap-2">
+                                            <span className="material-icons">person_add</span> Añadir Acompañante
+                                        </button>
+                                    )}
+                                </div>
+                            </div>
+                        )}
+
+                        {step === 3 && (
                             <div className="space-y-5 animate-fadeIn">
                                 {/* Destination Country */}
                                 <div className="space-y-2">
@@ -470,7 +578,7 @@ const Onboarding: React.FC<OnboardingProps> = ({ onNext, initialData, onCancel }
                             </div>
                         )}
 
-                        {step === 3 && (
+                        {step === 4 && (
                             <div className="space-y-6 animate-fadeIn">
                                 <div className="bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-200 dark:border-slate-700 overflow-hidden">
                                     <div className="p-4 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center bg-slate-100/50 dark:bg-slate-800">
@@ -490,6 +598,22 @@ const Onboarding: React.FC<OnboardingProps> = ({ onNext, initialData, onCancel }
                                             <div>
                                                 <p className="text-xs text-slate-500 uppercase tracking-wider">Duración</p>
                                                 <p className="font-semibold text-slate-900 dark:text-white">{formData.days} días</p>
+                                            </div>
+                                            <div>
+                                                <p className="text-xs text-slate-500 uppercase tracking-wider">Teléfono</p>
+                                                <p className="font-semibold text-slate-900 dark:text-white">{formData.phone}</p>
+                                            </div>
+                                            <div>
+                                                <p className="text-xs text-slate-500 uppercase tracking-wider">Email</p>
+                                                <p className="font-semibold text-slate-900 dark:text-white truncate">{formData.email}</p>
+                                            </div>
+                                            <div className="col-span-2 pt-2 border-t border-slate-200 dark:border-slate-700">
+                                                <p className="text-xs text-slate-500 uppercase tracking-wider mb-1">Grupo de Viaje</p>
+                                                <p className="font-semibold text-slate-900 dark:text-white">
+                                                    {formData.companions.length > 0 ? (
+                                                        <span>Titular + {formData.companions.length} acompañante(s)</span>
+                                                    ) : 'Viaja sin acompañantes'}
+                                                </p>
                                             </div>
                                             <div className="col-span-2">
                                                 <p className="text-xs text-slate-500 uppercase tracking-wider">Tipo de Visa</p>
@@ -520,10 +644,17 @@ const Onboarding: React.FC<OnboardingProps> = ({ onNext, initialData, onCancel }
                             )}
                             <button
                                 type="submit"
-                                className="flex-[2] h-14 bg-primary hover:bg-primary/90 text-white font-bold rounded-xl shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2"
+                                disabled={isSaving}
+                                className={`flex-[2] h-14 bg-primary hover:bg-primary/90 text-white font-bold rounded-xl shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2 ${isSaving ? 'opacity-70 cursor-not-allowed' : ''}`}
                             >
-                                <span>{step === 3 ? "Generar Requisitos" : "Continuar"}</span>
-                                <span className="material-icons text-lg">arrow_forward</span>
+                                {isSaving ? (
+                                    <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                                ) : (
+                                    <>
+                                <span>{step === 4 ? "Generar Requisitos" : "Continuar"}</span>
+                                        <span className="material-icons text-lg">arrow_forward</span>
+                                    </>
+                                )}
                             </button>
                         </div>
                     </form>

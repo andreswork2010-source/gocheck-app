@@ -1,5 +1,16 @@
 import { VISA_DATA } from '../data/visaData';
 
+export interface ImportantDate {
+    id: string;
+    title: string;
+    date: string;
+    type: 'appointment' | 'submission' | 'expiration' | 'flight' | 'other';
+    memberId?: string; // 'titular' or companion ID
+    memberName?: string;
+    description?: string;
+    notified?: boolean;
+}
+
 export interface UserProfile {
     firstName: string;
     lastName: string;
@@ -13,6 +24,10 @@ export interface UserProfile {
     days: number;
     photo?: File | null;
     photoUrl?: string;
+    phone?: string;
+    email?: string;
+    companions?: { id: string, name: string, relation: string, age: string }[];
+    importantDates?: ImportantDate[];
 }
 
 export interface ScoreBreakdown {

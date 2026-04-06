@@ -45,7 +45,7 @@ const AccommodationRoadmap: React.FC<AccommodationRoadmapProps> = ({ onBack }) =
         {
             number: 5,
             title: "Descarga y Carga",
-            description: "Obtén el PDF de confirmación (en español si es posible) y súbelo a GoluM para que lo tengamos listo en tu expediente.",
+            description: "Obtén el PDF de confirmación (en español si es posible) y súbelo a Go-Check para que lo tengamos listo en tu expediente.",
             icon: "cloud_done",
             tips: ["Lleva siempre una copia impresa el día de la cita."]
         }

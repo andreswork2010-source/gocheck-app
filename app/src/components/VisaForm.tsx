@@ -7,91 +7,96 @@ interface VisaFormProps {
     destinationName: string;
     prefillData?: any;
     userProfile: UserProfile | null;
-    onSave?: (pdfDataUrl: string) => void;
+    onSave?: (pdfDataUrl: string, fileKey: string) => void;
 }
 
 const VisaForm: React.FC<VisaFormProps> = ({ onBack, destinationName, userProfile, onSave }) => {
-    const [formData, setFormData] = useState({
-        surname: '',
-        firstName: '',
-        dateOfBirth: '',
-        placeOfBirth: '',
-        countryOfBirth: 'Ecuador',
-        nationality: 'Ecuatoriana',
-        sex: 'M',
-        civilStatus: '',
-        passportNumber: '',
-        passportIssueDate: '',
-        passportExpiryDate: '',
-        email: '',
-        phone: '',
-        homeAddress: '',
-        occupation: '',
-        employer: '',
-        mainDestination: destinationName,
-        entryState: destinationName,
-        purpose: 'Turismo',
-        entryDate: '',
-        exitDate: '',
-        hotelName: '',
-        hotelAddress: '',
-        hotelEmail: '',
-        hotelPhone: '',
-        invitingPerson: '',
-        entriesRequested: 'multiple',
-        stayDuration: '15'
-    });
+    const companions = userProfile?.companions || [];
+    const [activeMemberId, setActiveMemberId] = useState<string>('titular');
 
-    const [isSaving, setIsSaving] = useState(false);
+    const getFileKey = (reqId: string) => activeMemberId === 'titular' ? reqId : `${reqId}_${activeMemberId}`;
 
+    // Dictionary of form data for each member
+    const [formsData, setFormsData] = useState<Record<string, any>>({});
+    // Initialize formsData for all members
     useEffect(() => {
-        // 1. Prefill from userProfile (Onboarding data)
+        const initData = {
+            surname: '',
+            firstName: '',
+            dateOfBirth: '',
+            placeOfBirth: '',
+            countryOfBirth: 'Ecuador',
+            nationality: 'Ecuatoriana',
+            sex: 'M',
+            civilStatus: '',
+            passportNumber: '',
+            passportIssueDate: '',
+            passportExpiryDate: '',
+            email: '',
+            phone: '',
+            homeAddress: '',
+            occupation: '',
+            employer: '',
+            mainDestination: destinationName,
+            entryState: destinationName,
+            purpose: 'Turismo',
+            entryDate: '',
+            exitDate: '',
+            hotelName: '',
+            hotelAddress: '',
+            hotelEmail: '',
+            hotelPhone: '',
+            invitingPerson: '',
+            entriesRequested: 'multiple',
+            stayDuration: '15'
+        };
+
+        const initialForms: Record<string, any> = {};
+        
+        // Titular
+        initialForms['titular'] = { ...initData };
         if (userProfile) {
-            setFormData(prev => ({
-                ...prev,
+            initialForms['titular'] = {
+                ...initialForms['titular'],
                 firstName: userProfile.firstName || '',
                 surname: userProfile.lastName || '',
                 dateOfBirth: userProfile.birthDate || '',
                 placeOfBirth: userProfile.birthPlace || '',
                 civilStatus: userProfile.civilStatus || '',
                 occupation: userProfile.profession || '',
-                entryDate: '', // Can try to get from somewhere else if needed
                 stayDuration: String(userProfile.days || 15)
-            }));
+            };
         }
 
-        // 2. Prefill from localStorage (Passport, Flights)
-        const passportDataStr = localStorage.getItem('passportData');
-        if (passportDataStr) {
-            try {
-                const passData = JSON.parse(passportDataStr);
-                setFormData(prev => ({
-                    ...prev,
-                    passportNumber: passData.number || prev.passportNumber,
-                    surname: passData.lastName || prev.surname,
-                    firstName: passData.firstName || prev.firstName,
-                    dateOfBirth: passData.birthDate || prev.dateOfBirth,
-                    nationality: passData.nationality || prev.nationality
-                }));
-            } catch (e) { console.error(e); }
-        }
+        // Companions
+        companions.forEach(c => {
+            const isMinor = parseInt(c.age) < 18;
+            initialForms[c.id] = {
+                ...initData,
+                firstName: c.name.split(' ')[0] || c.name,
+                surname: c.name.split(' ').slice(1).join(' ') || '',
+                dateOfBirth: '', // We only have age, not full DOB
+                occupation: isMinor ? 'Estudiante' : '',
+                civilStatus: isMinor ? 'soltero' : '',
+            };
+        });
 
-        const flightDataStr = localStorage.getItem('flightData');
-        if (flightDataStr) {
-            try {
-                const flightData = JSON.parse(flightDataStr);
-                setFormData(prev => ({
-                    ...prev,
-                    entryDate: flightData.arrivalDate || prev.entryDate,
-                    mainDestination: destinationName
-                }));
-            } catch (e) { console.error(e); }
-        }
+        setFormsData(initialForms);
     }, [userProfile, destinationName]);
+
+    const [isSaving, setIsSaving] = useState(false);
+
+    const formData = formsData[activeMemberId] || {};
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
+        setFormsData(prev => ({
+            ...prev,
+            [activeMemberId]: {
+                ...prev[activeMemberId],
+                [name]: value
+            }
+        }));
     };
 
     const handlePrint = () => {
@@ -183,7 +188,7 @@ const VisaForm: React.FC<VisaFormProps> = ({ onBack, destinationName, userProfil
             });
 
             if (onSave) {
-                onSave(base64String);
+                onSave(base64String, getFileKey('generated_visa_form'));
             }
 
             // AUTO-DOWNLOAD for immediate verification
@@ -196,8 +201,7 @@ const VisaForm: React.FC<VisaFormProps> = ({ onBack, destinationName, userProfil
         } catch (error) {
             console.error('Error saving PDF:', error);
             alert('Error crítico al generar el PDF. Verifica tu conexión e intenta de nuevo.');
-            // Fallback: save current data URL of the page? No, just trigger onSave with null or something
-            if (onSave) onSave('');
+            if (onSave) onSave('', getFileKey('generated_visa_form'));
         } finally {
             setIsSaving(false);
         }
@@ -238,6 +242,29 @@ const VisaForm: React.FC<VisaFormProps> = ({ onBack, destinationName, userProfil
             {/* Form Container */}
             <main className="flex-1 max-w-4xl mx-auto w-full p-6 print:p-0 print:max-w-none">
                 <div className="bg-white dark:bg-slate-800 dark:print:bg-white rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 p-8 print:border-none print:shadow-none">
+
+                    {/* Tabs row for selecting member */}
+                    {companions.length > 0 && (
+                        <div className="flex flex-wrap gap-2 mb-6 border-b border-slate-200 dark:border-slate-700 pb-4">
+                            <button 
+                                onClick={() => setActiveMemberId('titular')}
+                                className={`px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-2 ${activeMemberId === 'titular' ? 'bg-primary text-white shadow-md' : 'bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300'}`}
+                            >
+                                <span className="material-icons text-sm">account_circle</span>
+                                {userProfile?.firstName || 'Titular'}
+                            </button>
+                            {companions.map((comp: any) => (
+                                <button
+                                    key={comp.id}
+                                    onClick={() => setActiveMemberId(comp.id)}
+                                    className={`px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-2 ${activeMemberId === comp.id ? 'bg-primary text-white shadow-md' : 'bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300'}`}
+                                >
+                                    <span className="material-icons text-sm">{parseInt(comp.age) < 18 ? 'child_care' : 'person_outline'}</span>
+                                    {comp.name}
+                                </button>
+                            ))}
+                        </div>
+                    )}
 
                     {/* Official-looking Header for Print */}
                     <div className="hidden print:flex justify-between items-start mb-8 border-b-2 border-black pb-4">
