@@ -19,7 +19,6 @@ interface DocumentListProps {
     setFiles: (newFiles: Record<string, UploadedFile> | ((prev: Record<string, UploadedFile>) => Record<string, UploadedFile>)) => Promise<void>;
     onNavigate?: (view: string) => void;
     userProfile: UserProfile | null;
-    userEmail?: string;
 }
 
 interface PassportData {
@@ -36,7 +35,7 @@ interface FlightData {
     pnr: string;
 }
 
-const DocumentList: React.FC<DocumentListProps> = ({ onBack, destinationId, visaTypeId, files, setFiles, onNavigate, userProfile, userEmail }) => {
+const DocumentList: React.FC<DocumentListProps> = ({ onBack, destinationId, visaTypeId, files, setFiles, onNavigate, userProfile }) => {
 
     // Resolve data based on props
     const country = VISA_DATA.find(c => c.id === destinationId);
