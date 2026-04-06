@@ -400,13 +400,11 @@ function App() {
           {currentView === 'documents' && (
             <DocumentList
               onBack={() => navigateTo('dashboard')}
-              onNavigate={(view) => navigateTo(view as View)}
               destinationId={tripData.destination}
               visaTypeId={tripData.visaType}
               files={uploads}
               setFiles={updateUploads}
               userProfile={userProfile}
-              userEmail={currentUser?.email || undefined}
             />
           )}
 

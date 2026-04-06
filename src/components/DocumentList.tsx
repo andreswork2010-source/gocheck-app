@@ -17,7 +17,6 @@ interface DocumentListProps {
     visaTypeId: string;
     files: Record<string, UploadedFile>;
     setFiles: (newFiles: Record<string, UploadedFile> | ((prev: Record<string, UploadedFile>) => Record<string, UploadedFile>)) => Promise<void>;
-    onNavigate?: (view: string) => void;
     userProfile: UserProfile | null;
 }
 
@@ -35,7 +34,7 @@ interface FlightData {
     pnr: string;
 }
 
-const DocumentList: React.FC<DocumentListProps> = ({ onBack, destinationId, visaTypeId, files, setFiles, onNavigate, userProfile }) => {
+const DocumentList: React.FC<DocumentListProps> = ({ onBack, destinationId, visaTypeId, files, setFiles, userProfile }) => {
 
     // Resolve data based on props
     const country = VISA_DATA.find(c => c.id === destinationId);
@@ -104,7 +103,7 @@ const DocumentList: React.FC<DocumentListProps> = ({ onBack, destinationId, visa
             if (fileKey.startsWith('pass')) setShowPassportForm(true);
 
             // Send notification of progress (Titular only to avoid spamming)
-            if (userEmail && userProfile && activeMemberId === 'titular') {
+            if (userProfile?.email && userProfile && activeMemberId === 'titular') {
                 const totalHighPriority = requirements.filter(r => r.priority === 'high').length;
                 const uploadedHighPriority = Object.keys({ ...files, [fileKey]: newUpload }).filter(key => 
                     requirements.find(r => r.id === key && r.priority === 'high')
@@ -112,7 +111,7 @@ const DocumentList: React.FC<DocumentListProps> = ({ onBack, destinationId, visa
                 
                 const percentage = Math.round((uploadedHighPriority / totalHighPriority) * 100);
 
-                sendProgressEmail(userEmail, userProfile.firstName, reqTitle, percentage)
+                sendProgressEmail(userProfile.email, userProfile.firstName, reqTitle, percentage)
                     .catch(err => console.error("Error sending progress email:", err));
             }
         }
