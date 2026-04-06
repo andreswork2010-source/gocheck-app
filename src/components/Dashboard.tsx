@@ -33,7 +33,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onBoost, onNavigate, destinationI
     const displayName = userName || "Usuario";
 
     return (
-        <div className="font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen pb-24 flex flex-col overflow-x-hidden">
+        <div className="font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen pb-24 flex flex-col w-full overflow-hidden">
             {/* Top Navigation Bar (Responsive) */}
             <nav className="sticky top-0 z-50 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800 px-6 py-4 flex justify-between items-center">
                 <div className="flex items-center gap-3">
@@ -84,7 +84,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onBoost, onNavigate, destinationI
                 </div>
             </nav>
 
-            <main className="flex-1 w-full max-w-7xl mx-auto p-6 grid grid-cols-1 md:grid-cols-12 gap-6">
+            <main className="flex-1 w-full max-w-full md:max-w-7xl mx-auto p-4 md:p-6 grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6">
 
                 {/* Left Column: Probability + Stats (Mobile: Full Width, Desktop: 4 cols) */}
                 <div className="md:col-span-4 lg:col-span-3 space-y-6">
