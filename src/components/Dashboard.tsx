@@ -164,9 +164,6 @@ const Dashboard: React.FC<DashboardProps> = ({ onBoost, onNavigate, destinationI
                         <span className="material-icons">bolt</span>
                         <span>Mejorar mi Probabilidad</span>
                     </button>
-
-                    {/* Consular News Feed */}
-                    <ConsularNews />
                 </div>
 
                 {/* Center/Right Column: Content & Actions (Mobile: Full Width, Desktop: 8 cols) */}
@@ -350,6 +347,11 @@ const Dashboard: React.FC<DashboardProps> = ({ onBoost, onNavigate, destinationI
                                 </div>
                             ))}
                         </div>
+                    </div>
+
+                    {/* Consular News Feed - Moved to bottom for better UX */}
+                    <div className="mt-4">
+                        <ConsularNews />
                     </div>
                 </div>
             </main>
