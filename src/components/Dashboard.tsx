@@ -349,12 +349,12 @@ const Dashboard: React.FC<DashboardProps> = ({ onBoost, onNavigate, destinationI
                         </div>
                     </div>
 
-                    {/* Consular News Feed - Moved to bottom for better UX */}
-                    <div className="mt-4 w-full">
-                        <ConsularNews />
-                    </div>
-                </div>
             </main>
+
+            {/* Consular News Feed - COMPLETELY AT THE BOTTOM */}
+            <div className="w-full px-6 pb-12 overflow-hidden">
+                 <ConsularNews />
+            </div>
 
             {/* Mobile Bottom Navigation (Hidden on Desktop) */}
             <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white/90 dark:bg-background-dark/95 backdrop-blur-xl border-t border-slate-200 dark:border-slate-800 px-6 pt-3 pb-8 flex justify-between items-center z-50">
