@@ -33,7 +33,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onBoost, onNavigate, destinationI
     const displayName = userName || "Usuario";
 
     return (
-        <div className="font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen pb-24 flex flex-col">
+        <div className="font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen pb-24 flex flex-col overflow-x-hidden">
             {/* Top Navigation Bar (Responsive) */}
             <nav className="sticky top-0 z-50 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800 px-6 py-4 flex justify-between items-center">
                 <div className="flex items-center gap-3">
@@ -350,7 +350,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onBoost, onNavigate, destinationI
                     </div>
 
                     {/* Consular News Feed - Moved to bottom for better UX */}
-                    <div className="mt-4">
+                    <div className="mt-4 w-full">
                         <ConsularNews />
                     </div>
                 </div>
