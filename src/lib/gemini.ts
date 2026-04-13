@@ -50,10 +50,17 @@ REGLAS:
         });
 
         if (!response.ok) {
+           let errorDetail = "";
+           try {
+               const errData = await response.json();
+               errorDetail = errData.error || response.statusText;
+           } catch (e) {
+               errorDetail = response.statusText;
+           }
            if (response.status === 429) {
                return "🚫 **Límite Alcanzado:** Demasiadas solicitudes al mismo tiempo. Por favor intenta en un minuto.";
            }
-           throw new Error(`Error en el servidor: ${response.status}`);
+           throw new Error(`Error ${response.status}: ${errorDetail}`);
         }
 
         const data = await response.json();

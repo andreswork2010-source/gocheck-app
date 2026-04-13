@@ -29,7 +29,7 @@ export default async function handler(req, res) {
     if (error.status === 429) {
       res.status(429).json({ error: 'Cuota de IA excedida o demasiadas peticiones simultáneas.' });
     } else {
-      res.status(500).json({ error: 'Error processing AI request' });
+      res.status(500).json({ error: error.message || 'Error processing AI request' });
     }
   }
 }
