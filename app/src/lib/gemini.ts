@@ -1,19 +1,9 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
-
 export const getGeminiResponse = async (prompt: string, context: any) => {
-    const API_KEY = (import.meta.env.VITE_GEMINI_API_KEY || "").trim();
-    if (!API_KEY) return "⚠️ Falta API KEY en .env";
-
-    // Intentamos con varios modelos por si uno no está disponible en este proyecto/región
-    const MODELS = ["gemini-1.5-flash", "gemini-flash-latest", "gemini-2.0-flash"];
     let lastError = "";
 
-    for (const modelName of MODELS) {
-        try {
-            const genAI = new GoogleGenerativeAI(API_KEY);
-            
-            const profile = context.userProfile || {};
-            const systemBase = `Eres el Agente Migratorio experto de Go-Check (Ecuador). 
+    try {
+        const profile = context.userProfile || {};
+        const systemBase = `Eres el Agente Migratorio experto de Go-Check (Ecuador). 
 Tu misión es asesorar a ${context.userName || 'el usuario'} para su viaje a ${context.countryName || 'su destino'}.
 PERFIL DEL USUARIO:
 - Profesión: ${profile.profession || 'No especificada'}
@@ -35,41 +25,45 @@ REGLAS:
    - PROMO_ID para Hoteles (Hotellook): 121
 7. Usa formato markdown ligero (negritas, listas).`;
 
+        // Adaptamos el historial
+        const rawHistory = Array.isArray(context.history) ? context.history : [];
+        const messages: Array<{role: "system"|"user"|"assistant", content: string}> = [
+            { role: "system", content: systemBase }
+        ];
 
-            const model = genAI.getGenerativeModel({
-                model: modelName,
-                systemInstruction: systemBase,
-                generationConfig: { maxOutputTokens: 1000, temperature: 0.7 }
-            });
-
-            const history = Array.isArray(context.history) ? context.history : [];
-            const chat = model.startChat({ history });
-
-            const result = await chat.sendMessage(prompt);
-            const response = await result.response;
-            const text = response.text();
-            
-            if (text) return text;
-        } catch (error: any) {
-            lastError = error.message || "";
-            console.warn(`Falló el modelo ${modelName}, intentando siguiente...`, lastError);
-            
-            // Si es un error de cuota agotada (429), no seguimos intentando otros modelos
-            if (lastError.includes("429")) {
-                return "🚫 **Cuota Diaria Agotada:** Has alcanzado el límite máximo gratuito de Google por hoy.";
-            }
-
-            // Si es error de API Key no válida, tampoco seguimos
-            if (lastError.includes("API key not valid")) {
-                return "🔑 **Error de API:** Tu API Key de Gemini parece no ser válida o está inactiva.";
+        for (const msg of rawHistory) {
+            const role = msg.role === 'model' ? 'assistant' : 'user';
+            const content = Array.isArray(msg.parts) ? msg.parts[0]?.text || "" : "";
+            if (content) {
+                messages.push({ role, content });
             }
         }
+
+        messages.push({ role: "user", content: prompt });
+
+        // En lugar de llamar a Groq directamente, solicitamos mediante el PUENTE (Backend)
+        const response = await fetch('/api/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ messages })
+        });
+
+        if (!response.ok) {
+            const errData = await response.json();
+            throw new Error(errData.error || response.statusText);
+        }
+
+        const data = await response.json();
+        
+        if (data.text) return data.text;
+    } catch (error: any) {
+        lastError = error.message || "";
+        console.warn(`Falló la conexión al Puente (API Route):`, lastError);
     }
 
-    // Si llegamos aquí es que fallaron todos los modelos
-    if (lastError.includes("fetch") || lastError.includes("NetworkError")) {
-        return "🌐 **Error de Conexión:** No pude conectar con Google. Verifica tu internet o si tienes algún bloqueador de anuncios (AdBlock) que pueda estar interfiriendo.";
+    if (lastError.includes("fetch") || lastError.includes("NetworkError") || lastError.includes("connection")) {
+        return "🌐 **Error de Conexión:** No pude conectar con la IA. Verifica tu internet o si tienes algún bloqueador de anuncios.";
     }
 
-    return `⚠️ Error al conectar con la IA. (Detalle: ${lastError.substring(0, 40)}...)`;
+    return `⚠️ Error al interactuar con el puente de la IA. (Detalle: ${lastError.substring(0, 40)}...)`;
 }

@@ -191,8 +191,8 @@ const Assistant: React.FC<AssistantProps> = ({ onBack, onNavigate, uploads, dest
                 historyForGemini = historyForGemini.slice(firstUserIndex);
             }
 
-            if (historyForGemini.length > 6) {
-                historyForGemini = historyForGemini.slice(-6);
+            if (historyForGemini.length > 4) {
+                historyForGemini = historyForGemini.slice(-4);
                 if (historyForGemini[0].role === 'model') {
                     historyForGemini = historyForGemini.slice(1);
                 }
@@ -204,7 +204,8 @@ const Assistant: React.FC<AssistantProps> = ({ onBack, onNavigate, uploads, dest
                 countryName: countryName,
                 visaName: visa?.name || "Visa",
                 destinationId: destinationId,
-                uploads: uploads,
+                // Only send the LIST of files, NOT the file content to save tokens
+                uploadList: Object.keys(uploads).map(k => uploads[k].fileName || k),
                 history: historyForGemini
             };
 

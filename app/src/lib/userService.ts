@@ -161,7 +161,7 @@ export const listUserFiles = async (userId: string) => {
         // Recuperamos los archivos existentes
         const filesWithUrls = await Promise.all(data.map(async f => {
             const filePath = `${userId}/${f.name}`;
-            const { data: signedData, error: signedError } = await supabase.storage
+            const { data: signedData } = await supabase.storage
                 .from('user-documents')
                 .createSignedUrl(filePath, 31536000); // 1 año
 
