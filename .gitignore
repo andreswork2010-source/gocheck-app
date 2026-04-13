@@ -27,6 +27,7 @@ dist-ssr
 *.js
 !src/**/*.js
 !src/**/*.mjs
+!api/**/*.js
 dist/
 node_modules/
 mcp_config.json

@@ -349,6 +349,8 @@ const Dashboard: React.FC<DashboardProps> = ({ onBoost, onNavigate, destinationI
                         </div>
                     </div>
 
+                </div>
+
             </main>
 
             {/* Consular News Feed - COMPLETELY AT THE BOTTOM */}

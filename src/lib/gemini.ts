@@ -1,19 +1,7 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
-
 export const getGeminiResponse = async (prompt: string, context: any) => {
-    const API_KEY = (import.meta.env.VITE_GEMINI_API_KEY || "").trim();
-    if (!API_KEY) return "⚠️ Falta API KEY en .env";
 
-    // Intentamos con varios modelos por si uno no está disponible en este proyecto/región
-    const MODELS = ["gemini-1.5-flash", "gemini-flash-latest", "gemini-2.0-flash"];
-    let lastError = "";
-
-    for (const modelName of MODELS) {
-        try {
-            const genAI = new GoogleGenerativeAI(API_KEY);
-            
-            const profile = context.userProfile || {};
-            const systemBase = `Eres el Agente Migratorio experto de Go-Check (Ecuador). 
+    const profile = context.userProfile || {};
+    const systemBase = `Eres el Agente Migratorio experto de Go-Check (Ecuador). 
 Tu misión es asesorar a ${context.userName || 'el usuario'} para su viaje a ${context.countryName || 'su destino'}.
 PERFIL DEL USUARIO:
 - Profesión: ${profile.profession || 'No especificada'}
@@ -35,41 +23,47 @@ REGLAS:
    - PROMO_ID para Hoteles (Hotellook): 121
 7. Usa formato markdown ligero (negritas, listas).`;
 
+    const history = Array.isArray(context.history) ? context.history : [];
+    
+    // Convert gemini history format to standard OpenAI/Groq format
+    const messages = [];
+    messages.push({ role: 'system', content: systemBase });
+    
+    // Add past messages
+    for (const msg of history) {
+        messages.push({
+            role: msg.role === 'user' ? 'user' : 'assistant',
+            content: msg.parts[0].text
+        });
+    }
 
-            const model = genAI.getGenerativeModel({
-                model: modelName,
-                systemInstruction: systemBase,
-                generationConfig: { maxOutputTokens: 1000, temperature: 0.7 }
-            });
+    // Add current prompt
+    messages.push({ role: 'user', content: prompt });
 
-            const history = Array.isArray(context.history) ? context.history : [];
-            const chat = model.startChat({ history });
+    try {
+        const response = await fetch('/api/chat', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ messages }),
+        });
 
-            const result = await chat.sendMessage(prompt);
-            const response = await result.response;
-            const text = response.text();
-            
-            if (text) return text;
-        } catch (error: any) {
-            lastError = error.message || "";
-            console.warn(`Falló el modelo ${modelName}, intentando siguiente...`, lastError);
-            
-            // Si es un error de cuota agotada (429), no seguimos intentando otros modelos
-            if (lastError.includes("429")) {
-                return "🚫 **Cuota Diaria Agotada:** Has alcanzado el límite máximo gratuito de Google por hoy.";
-            }
-
-            // Si es error de API Key no válida, tampoco seguimos
-            if (lastError.includes("API key not valid")) {
-                return "🔑 **Error de API:** Tu API Key de Gemini parece no ser válida o está inactiva.";
-            }
+        if (!response.ok) {
+           if (response.status === 429) {
+               return "🚫 **Límite Alcanzado:** Demasiadas solicitudes al mismo tiempo. Por favor intenta en un minuto.";
+           }
+           throw new Error(`Error en el servidor: ${response.status}`);
         }
-    }
 
-    // Si llegamos aquí es que fallaron todos los modelos
-    if (lastError.includes("fetch") || lastError.includes("NetworkError")) {
-        return "🌐 **Error de Conexión:** No pude conectar con Google. Verifica tu internet o si tienes algún bloqueador de anuncios (AdBlock) que pueda estar interfiriendo.";
-    }
+        const data = await response.json();
+        return data.result || "No pude generar una respuesta.";
 
-    return `⚠️ Error al conectar con la IA. (Detalle: ${lastError.substring(0, 40)}...)`;
+    } catch (error: any) {
+        console.error("Error al conectar con la IA de Vercel/Groq:", error);
+        if (error.message.includes("fetch") || error.message.includes("NetworkError")) {
+            return "🌐 **Error de Conexión:** No pude contactar al servidor. Verifica tu internet o revisa que '/api/chat' esté desplegado correctamente.";
+        }
+        return `⚠️ Error al conectar con la IA. (Detalle: ${error.message})`;
+    }
 }
