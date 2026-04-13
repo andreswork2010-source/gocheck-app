@@ -90,7 +90,7 @@ const Assistant: React.FC<AssistantProps> = ({ onBack, onNavigate, uploads, dest
         };
 
         loadHistory();
-    }, [userId, userName, countryName, messages.length]);
+    }, [userId, userName, countryName]);
 
     // Save messages whenever they change
     useEffect(() => {
