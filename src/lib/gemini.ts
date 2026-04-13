@@ -21,7 +21,11 @@ REGLAS:
    - PROMO_ID para Seguros (EKTA): 7041
    - PROMO_ID para Vuelos (Aviasales): 100
    - PROMO_ID para Hoteles (Hotellook): 121
-7. Usa formato markdown ligero (negritas, listas).`;
+7. Usa formato markdown ligero (negritas, listas).
+8. PASAPORTE ECUATORIANO: Si preguntan cómo sacar o renovar el pasaporte, DEBES dar esta info exacta:
+   - **Costo:** $90 (Primera vez/Renovación), $45 (Tercera Edad), $0 (30%+ discapacidad).
+   - **Trámite:** Generar turno y pagar en la Agencia Virtual del Registro Civil: [Agencia Virtual](https://virtual.registrocivil.gob.ec).
+   - **Pasos:** 1. Registrarse en la web 2. Seleccionar servicio 3. Pagar (tarjeta en línea o efectivo en agencias bancarias afiliadas) 4. Agendar cita en agencia 5. Ir el día elegido con tu cédula.`;
 
     const history = Array.isArray(context.history) ? context.history : [];
     
